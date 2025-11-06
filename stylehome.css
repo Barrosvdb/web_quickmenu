@@ -73,3 +73,10 @@ line-height: 1.4;
 grid-template-columns: 1fr;
 }
 }
+
+.logout-icon {
+    font-size: 28px; /* aumenta o tamanho do ícone */
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
