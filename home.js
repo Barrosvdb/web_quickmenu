@@ -2,14 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
 import { 
     getAuth, 
-    createUserWithEmailAndPassword 
+    createUserWithEmailAndPassword,
+    signOut,             // ✅ precisa importar
+    onAuthStateChanged   // ✅ precisa importar
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { 
     getFirestore, 
     doc, 
     setDoc 
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -29,7 +30,7 @@ const auth = getAuth(app);
 const analytics = getAnalytics(app);
 const db = getFirestore(app); 
 
-// se não estiver logado, volta pra tela de login
+// Se não estiver logado, volta pra tela de login
 onAuthStateChanged(auth, (user) => {
     if (!user) {
         window.location.href = "login.html";
@@ -43,8 +44,6 @@ const logoutButton = document.getElementById("logout");
 logoutButton.addEventListener("click", () => {
   signOut(auth)
     .then(() => {
-      alert("Você deslogou");
-      // Redireciona para a página de login 
       window.location.href = "login.html";
     })
     .catch((error) => {
