@@ -51,7 +51,6 @@ function handleLogin(event) {
     signInWithEmailAndPassword(auth, email, senha)
         .then((userCredential) => {
             const user = userCredential.user;
-            alert("✅ Login realizado com sucesso!");
             
             // Redireciona para a tela "Meus Restaurantes"
             window.location.href = "home.html";
