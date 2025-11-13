@@ -161,3 +161,75 @@ h1{
         padding: 20px;
     }
 }
+
+.image-upload {
+  text-align: center;
+  border: 2px dashed #ff7b4f;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff8f5;
+  transition: 0.3s;
+}
+
+.image-upload:hover {
+  background-color: #fff2eb;
+}
+
+.upload-area {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.upload-area p {
+  margin: 10px 0 0;
+  font-weight: bold;
+  color: #ff7b4f;
+}
+
+.upload-area span {
+  font-size: 13px;
+  color: #777;
+}
+
+#file-input {
+  display: none;
+}
+
+/* Pré-visualização */
+#preview {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#preview-img {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#file-info {
+  font-size: 14px;
+  color: #444;
+}
+
+#remove-btn {
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#remove-btn:hover {
+  background: #333;
+}
