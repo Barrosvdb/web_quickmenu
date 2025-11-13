@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Restaurante</title>
     <link rel="stylesheet" href="stylecadastro.css">
+    <script type="module" src="cadastror.js"></script>
 </head>
 <body class="b">
     <div class="container">
@@ -53,36 +54,5 @@
             <button class="btn-submit">Cadastrar Restaurante</button>
         </div>
     </div>
-
-    <script>
-        const fileInput = document.getElementById('file-input');
-        const preview = document.getElementById('preview');
-        const previewImg = document.getElementById('preview-img');
-        const fileInfo = document.getElementById('file-info');
-        const removeBtn = document.getElementById('remove-btn');
-
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-
-                reader.onload = e => {
-                    previewImg.src = e.target.result;
-                    preview.style.display = 'flex';
-                };
-
-                reader.readAsDataURL(file);
-                const fileType = file.type.split('/')[1] || 'desconhecido';
-                fileInfo.textContent = `${file.name} (${fileType})`;
-            }
-        });
-
-        removeBtn.addEventListener('click', () => {
-            fileInput.value = '';
-            preview.style.display = 'none';
-            previewImg.src = '';
-            fileInfo.textContent = '';
-        });
-    </script>
 </body>
 </html>
