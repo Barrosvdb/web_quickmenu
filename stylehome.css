@@ -1,42 +1,60 @@
- * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+header {
+    text-align: left;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: px solid #eaeaea;
+
+    display: flex;
+    justify-content: space-between; /* coloca o logout do outro lado */
+    align-items: center;
 }
-        
+.logout-icon {
+    font-size: 28px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease;
+    margin-right: 10px; /* opcional */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .b {
-   background-image:linear-gradient(90deg, #ff7b4f, #F5D965);
-color: #333;
-padding: 20px;
+    background-image: linear-gradient(90deg, #ff7b4f, #F5D965);
+    color: #333;
+    padding: 20px;
 }
-        
-.container{
+
+.container {
     max-width: 15;
 }
-        
+
 header {
-text-align: left;
-margin-bottom: 30px;
-padding-bottom: 20px;
-border-bottom: px solid #eaeaea;
+    text-align: left;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: px solid #eaeaea;
 }
-        
+
 h1 {
-color: #2c3e50;
-font-size: 2.5rem;
-margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
 }
-        
+
 .restaurant-list {
-display: grid;
-padding: 15px;
-margin: 20px;
-grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-gap: 20px;
+    display: grid;
+    padding: 15px;
+    margin: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
-         
-.btn-submit{
+
+.btn-submit {
     background-color: white;
     color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -47,36 +65,58 @@ gap: 20px;
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    transition:transform 0.3s ease, box-shadow 0.3s ease;
-}    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
 .btn-submit:hover {
-transform: translateY(-5px);
-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
-        
+
 .restaurant-name {
-font-size: 1.3rem;
-font-weight: bold;
-color: #2c3e50;
-margin-bottom: 8px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 8px;
 }
-        
+
 .restaurant-description {
-color: #7f8c8d;
-font-size: 0.9rem;
-line-height: 1.4;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    line-height: 1.4;
 }
-        
+
 @media (max-width: 600px) {
-.restaurant-list {
-grid-template-columns: 1fr;
-}
+    .restaurant-list {
+        grid-template-columns: 1fr;
+    }
 }
 
 .logout-icon {
-    font-size: 28px; /* aumenta o tamanho do ícone */
+    font-size: 28px;
     color: #333;
     cursor: pointer;
     transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* ----------------------------- */
+/*   ESTILO DO BOTÃO DE ADICIONAR */
+.add-restaurant-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ff7b4f;
+    border: 2px dashed #ff7b4f;
+    background-color: #fff;
+}
+
+.add-restaurant-btn:hover {
+    background-color: #ffe4d3;
+}
+
+.add-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    color: #ff7b4f;
 }
