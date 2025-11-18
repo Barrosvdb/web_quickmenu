@@ -62,30 +62,52 @@ a {
     padding-bottom: 5px;
 }
 
-/* --- HEADER DO RESTAURANTE --- */
+/* --- HEADER DO RESTAURANTE (AJUSTADO PARA EMPILHAR) --- */
 .restaurante-header {
+    /* MUDANÇA PRINCIPAL: Empilha os itens verticalmente */
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column; 
+    
+    /* MUDANÇA PRINCIPAL: Alinha os itens à esquerda */
+    align-items: flex-start;
+    
+    /* REMOVIDO: gap: 20px; (não faz sentido em coluna, use margin-bottom) */
+    
     margin-bottom: 40px; /* Espaço após o cabeçalho */
+    /* Garante que o header não ocupe largura desnecessária */
+    width: fit-content; 
 }
 
+/* --- ESTILO ADICIONAL PARA A IMAGEM --- */
+.image {
+    margin-bottom: 10px; /* Espaço entre a imagem e o nome */
+    /* Exemplo de estilo para a área da imagem */
+    width: 80px; 
+    height: 80px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- NOME DO RESTAURANTE (Seu CSS + Margem) --- */
 .nome-restaurante {
+    margin-top: 0; /* Remove margem superior padrão */
+    margin-bottom: 5px; /* Espaço entre o nome e a nota */
     font-size: 24px;
     font-weight: bold;
     color: #333;
 }
 
-/* Atualização para a caixa de texto */
+/* --- NOTA DO RESTAURANTE (Seu CSS) --- */
 .nota-restaurante {
     /* Estilos do Input */
-    background-color: rgba(200, 200, 200, 0.5); /* Cinza (200, 200, 200) com opacidade (0.5) */
-    color: #333; /* Cor do texto digitado */
-    border: 1px solid rgba(150, 150, 150, 0.5); /* Borda sutil */
+    background-color: rgba(255, 253, 253, 0.5); 
+    color: #333;
+    border: 1px solid rgba(150, 150, 150, 0.5);
     padding: 5px 10px;
     border-radius: 5px;
     font-weight: bold;
-    width: 60px; /* Largura ajustada para o campo */
+    width: 300px;
     text-align: center;
 }
 
@@ -112,9 +134,9 @@ a {
     height: fit-content;
 }
 
-/* --- SEÇÃO DESTAQUES --- */
+/* --- SEÇÃO DESTAQUES (Seu CSS) --- */
 .bloco {
-    margin-bottom: 40px; /* Espaço entre as seções (Destaques e Categorias) */
+    margin-bottom: 40px;
 }
 
 .destaques {
@@ -125,17 +147,20 @@ a {
     align-items: flex-start;
 }
 
-/* CARD DE PRODUTO EM DESTAQUE */
+/* CARD DE PRODUTO EM DESTAQUE (AJUSTADO) */
 .item-destaque {
     width: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    
+    /* FUNDAMENTAL: Define o contêiner de referência para o 'X' */
+    position: relative; 
 }
 
 .image-destaque {
-    /* Estilo para o placeholder das imagens de destaque */
+    /* Seu CSS existente para a imagem */
     width: 96px;
     height: 96px;
     border: 2px dashed #ddd;
@@ -148,16 +173,44 @@ a {
 }
 
 .item-destaque .titulo {
+    /* Seu CSS existente para o título */
     margin-top: 5px;
     font-size: 15px;
     font-weight: bold;
 }
 
 .item-destaque .preco {
+    /* Seu CSS existente para o preço */
     font-size: 14px;
     color: #555;
 }
 
+/* --- NOVO: Botão de Remoção ('X') --- */
+.remover-btn {
+    position: absolute;
+    /* Posição para o canto superior direito do .item-destaque */
+    top: -10px;    
+    right: -10px; 
+    
+    /* Estilos Visuais */
+    background-color: #333f; /* Vermelho para exclusão */
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%; /* Círculo */
+    text-align: center;
+    line-height: 24px; /* Centraliza o 'X' */
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    transition: background-color 0.2s;
+}
+
+.remover-btn:hover {
+    background-color: #cc0000;
+}
 /* BOTÃO ADICIONAR DESTAQUE */
 .adicionar {
     /* Alinha o botão com os cards de destaque */
@@ -198,6 +251,22 @@ a {
     flex-direction: column;
     gap: 15px;
     margin-top: 15px;
+}
+.produto-imagem {
+    width: 80px; /* Largura da área da imagem */
+    height: 80px; /* Altura da área da imagem */
+    border-radius: 8px; /* Cantos arredondados */
+    overflow: hidden; /* Garante que a imagem não saia da borda */
+    margin-right: 15px; /* Espaço entre a imagem e os detalhes */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.produto-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta a imagem para cobrir a área sem distorcer */
 }
 
 .btn-add-categoria {
