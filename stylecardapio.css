@@ -97,21 +97,25 @@ a {
     font-weight: bold;
     color: #333;
 }
-
-/* --- NOTA DO RESTAURANTE (Seu CSS) --- */
+/* --- NOTA DO RESTAURANTE (CSS Modificado) --- */
+/* --- NOTA DO RESTAURANTE --- */
 .nota-restaurante {
-    /* Estilos do Input */
-    background-color: rgba(255, 253, 253, 0.5); 
+    background-color: rgba(255, 253, 253, 0.5);
     color: #333;
     border: 1px solid rgba(150, 150, 150, 0.5);
     padding: 5px 10px;
     border-radius: 5px;
     font-weight: bold;
-    width: 300px;
+
+    width: 300px;                /* largura fixa */
+    resize: none;                /* impede o usuário de puxar */
+    overflow: hidden;            /* oculta barra de rolagem */
+    line-height: 1.2em;
+
     text-align: center;
+    white-space: normal;         /* permite quebra de linha */
 }
 
-/* Remove qualquer borda de foco padrão do navegador */
 .nota-restaurante:focus {
     outline: none;
     border-color: #ff7b4f;
@@ -246,27 +250,68 @@ a {
 
 /* SEÇÃO CATEGORIAS */
 .categorias {
-    /* Futuros estilos para container de categorias */
     display: flex;
     flex-direction: column;
     gap: 15px;
     margin-top: 15px;
 }
+
+/* CLASSE PRINCIPAL QUE CONTROLA O LAYOUT LADO A LADO */
+.produto-item {
+    display: flex; 
+    align-items: flex-start; /* Alinha pelo topo da imagem */
+    gap: 15px; 
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
 .produto-imagem {
-    width: 80px; /* Largura da área da imagem */
-    height: 80px; /* Altura da área da imagem */
-    border-radius: 8px; /* Cantos arredondados */
-    overflow: hidden; /* Garante que a imagem não saia da borda */
-    margin-right: 15px; /* Espaço entre a imagem e os detalhes */
+    width: 80px; 
+    height: 80px; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    /* REMOVIDO: margin-right: 15px; (o gap em .produto-item já faz isso) */
     display: flex;
     justify-content: center;
     align-items: center;
+    /* Garante que a imagem não encolha */
+    flex-shrink: 0; 
 }
 
 .produto-imagem img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ajusta a imagem para cobrir a área sem distorcer */
+    object-fit: cover;
+}
+
+/* DETALHES (NOME E DESCRIÇÃO) */
+.produto-detalhes {
+    /* Cresce para ocupar o espaço central */
+    flex-grow: 1; 
+    /* Remove margens padrão de <h4/> e <p/> para melhor alinhamento */
+    padding: 0; 
+    margin: 0;
+}
+
+.produto-nome {
+    margin: 0 0 4px 0; /* Pequena margem abaixo do nome */
+    font-size: 1.1em;
+}
+
+.produto-descricao {
+    margin: 0; /* Remove margem padrão */
+    font-size: 0.9em;
+    color: #666;
+}
+
+.produto-preco {
+    /* Garante que o preço fique fixo à direita */
+    flex-shrink: 0; 
+    font-weight: bold;
+    color: #333; 
+    
+    /* MODIFICAÇÃO: Diminui a fonte */
+    font-size: 0.9em; 
 }
 
 .btn-add-categoria {
