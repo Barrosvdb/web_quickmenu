@@ -87,7 +87,7 @@ async function carregarRestaurantes(userId) {
 
         // Redirecionar para a página do restaurante
         btn.addEventListener("click", () => {
-            window.location.href = `restaurante.html?id=${doc.id}`;
+            window.location.href = `cardapio.html?id=${doc.id}`;
         });
 
         // Insere o restaurante ANTES do botão de adicionar
