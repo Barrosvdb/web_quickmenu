@@ -163,6 +163,7 @@ cadastrarBtn.addEventListener("click", async () => {
     fileInput.value = "";
     preview.style.display = "none";
     showUploadText();
+    window.location.href = "home.html";
 
   } catch (error) {
     console.error("Erro ao cadastrar restaurante:", error);
