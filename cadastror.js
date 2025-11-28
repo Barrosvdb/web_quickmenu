@@ -146,7 +146,7 @@ cadastrarBtn.addEventListener("click", async () => {
     }
 
     // Salva o restaurante no Firestore, dentro do user
-    await addDoc(collection(db, "users", user.uid, "restaurantes"), {
+    await addDoc(collection(db, "operadores", user.uid, "restaurantes"), {
       nome,
       endereco,
       descricao,

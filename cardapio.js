@@ -9,7 +9,9 @@ import {
     persistentLocalCache, 
     persistentMultipleTabManager,
     doc,
-    onSnapshot
+    onSnapshot,
+    updateDoc,       
+    setDoc           
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 // ---------------------------------------------------------------
@@ -25,7 +27,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Firestore COM CACHE (muito mais rápido)
 const db = initializeFirestore(app, {
     localCache: persistentLocalCache({
         tabManager: persistentMultipleTabManager()
@@ -45,13 +46,16 @@ const nomeRestEl = document.querySelector(".nome-restaurante");
 const descRestEl = document.querySelector(".nota-restaurante");
 const imgRestEl = document.querySelector("#image-upload");
 
+// Variável para armazenar ref do documento
+let restauranteRef = null;
+
 // ---------------------------------------------------------------
-// CARREGAR RESTAURANTE (RÁPIDO)
+// CARREGAR RESTAURANTE
 // ---------------------------------------------------------------
 function carregarRestaurante(userId) {
-    const docRef = doc(db, "users", userId, "restaurantes", restauranteId);
+    restauranteRef = doc(db, "users", userId, "restaurantes", restauranteId);
 
-    onSnapshot(docRef, (snapshot) => {
+    onSnapshot(restauranteRef, (snapshot) => {
         if (!snapshot.exists()) {
             alert("Restaurante não encontrado.");
             return;
@@ -69,6 +73,21 @@ function carregarRestaurante(userId) {
         }
     });
 }
+
+// ---------------------------------------------------------------
+// SALVAR ALTERAÇÕES DA DESCRIÇÃO EM TEMPO REAL
+// ---------------------------------------------------------------
+descRestEl.addEventListener("input", async () => {
+    if (!restauranteRef) return;
+
+    try {
+        await updateDoc(restauranteRef, {
+            descricao: descRestEl.value
+        });
+    } catch (erro) {
+        console.error("Erro ao salvar descrição:", erro);
+    }
+});
 
 // ---------------------------------------------------------------
 // LOGIN
