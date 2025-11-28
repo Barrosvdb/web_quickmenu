@@ -66,7 +66,7 @@ async function carregarRestaurantes(userId) {
         </button>
     `;
 
-    const restaurantesRef = collection(db, "users", userId, "restaurantes");
+    const restaurantesRef = collection(db, "operadores", userId, "restaurantes");
     const snapshot = await getDocs(restaurantesRef);
 
     if (snapshot.empty) {

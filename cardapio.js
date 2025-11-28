@@ -53,7 +53,7 @@ let restauranteRef = null;
 // CARREGAR RESTAURANTE
 // ---------------------------------------------------------------
 function carregarRestaurante(userId) {
-    restauranteRef = doc(db, "users", userId, "restaurantes", restauranteId);
+    restauranteRef = doc(db, "operadores", userId, "restaurantes", restauranteId);
 
     onSnapshot(restauranteRef, (snapshot) => {
         if (!snapshot.exists()) {
