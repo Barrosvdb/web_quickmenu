@@ -80,15 +80,72 @@ a {
 
 /* --- ESTILO ADICIONAL PARA A IMAGEM --- */
 .image {
-    margin-bottom: 10px; /* Espaço entre a imagem e o nome */
-    /* Exemplo de estilo para a área da imagem */
-    width: 80px; 
-    height: 80px; 
+    margin-bottom: 10px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; 
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden; /* Importante para o botão poder se posicionar no canto */
 }
 
+/* Imagem que será exibida */
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Oculta o ícone SVG quando a imagem está carregada (controlado via JS) */
+.image.has-image #placeholder-icon {
+    display: none;
+}
+
+.remove-btn {
+    position: absolute;
+    /* Ajustes para centralizar o botão na quina superior direita
+       do contêiner (80px x 80px) de forma externa, sem ser cortado.
+       Ajustamos para metade do tamanho do botão (20px/2 = 10px) 
+       mais metade da espessura da borda da div. */
+    top: -10px; 
+    right: -10px; 
+
+    background: #000; /* Preto */
+    color: white;
+    /* Borda branca para dar um destaque visual de "botão externo" */
+    border: 2px solid white; 
+    font-size: 10px; 
+    font-weight: bold;
+    width: 20px; 
+    height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none; /* Oculto por padrão, controlado pelo JS */
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    /* Z-index é crucial para que o botão fique acima de qualquer elemento vizinho */
+    z-index: 20; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.remove-btn:hover {
+    transform: scale(1.1);
+    background: #FF3B3B; /* Cor de hover vermelha */
+}
+
+/* O resto do seu CSS para .image e .image img permanece o mesmo: */
+.image {
+    position: relative; 
+    overflow: visible; 
+    width: 80px;
+    height: 80px;
+}
 /* --- NOME DO RESTAURANTE (Seu CSS + Margem) --- */
 .nome-restaurante {
     margin-top: 0; /* Remove margem superior padrão */
@@ -124,7 +181,7 @@ a {
 /* Estilo para o texto de placeholder (dica) ser cinza mais claro */
 .nota-restaurante::placeholder {
     color: rgba(51, 51, 51, 0.7);
-    opacity: 1; /* Necessário para Firefox */
+    opacity: 1;
 }
 
 .image {
