@@ -1,0 +1,188 @@
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.btn i {
+    font-size: 14px;
+}
+
+.btn-sair {
+    background-color: #999;
+    color: white;
+}
+
+
+.btn-salvar {
+    background-color: #999;
+    color: white;
+}
+
+
+.btn-salvar:disabled {
+    
+    cursor: not-allowed;
+}
+
+/* ------ MODAL ------ */
+dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Fundo escurecido */
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+
+    /* SUAS CORES */
+    background-color: #ff7b4f;
+    border-bottom: 3px solid #F5D965;
+
+    border-radius: 12px 12px 0 0;
+}
+
+/* Título */
+.modal-title {
+    margin: 0;
+    font-size: 20px;
+    color: #ffffff; /* Branco para contraste */
+}
+
+.close-modal {
+    background-color: #ff7b4f;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #333;
+    padding: 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    transition: 0.2s ease;
+}
+
+
+/* Corpo */
+.modal-body {
+    padding: 30px;
+    background-color: #fff6e5; /* um bege levinho para combinar */
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #ff7b4f;
+}
+
+.input-group input,
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #F5D965;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background: #fffdf4;
+}
+
+textarea {
+    min-height: 100px;
+}
+/* =============================== */
+/*      ÁREA DE UPLOAD DE IMAGEM  */
+/* =============================== */
+
+.image-upload {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.image {
+    width: 100%;
+    max-width: 260px;
+    height: 180px;
+    border: 2px dashed #F5D965;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover bonito */
+.image:hover {
+    border-color: #F5D965;
+    background: #f5f5f5;
+}
+
+/* Imagem pré-visualizada */
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: 12px;
+}
+
+/* ------------------------------- */
+/* ÁREA DE ARRASTAR E SOLTAR      */
+/* ------------------------------- */
+.image.dragover {
+    border-color: #007bff;
+    background-color: #e8f1ff;
+}
+
+/* Preview */
+#preview-imagem {
+    border-radius: 8px;
+}
+
+/* Rodapé */
+.btn-group {
+    display: flex;
+    gap: 10px;
+    padding: 15px 30px 30px;
+    background-color: #fff6e5;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+    .btn-group {
+        flex-direction: column;
+    }
+}
