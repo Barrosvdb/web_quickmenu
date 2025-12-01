@@ -332,4 +332,26 @@ document.addEventListener("click", e => {
 
 
 // ===============================
-// REMOVER PRODUTO DA C
+// REMOVER PRODUTO 
+//------------------
+f// função que adiciona o evento de remover para todos os botões existentes
+function ativarRemoverProdutos() {
+  document.querySelectorAll('.remover-produto').forEach(btn => {
+    // evita múltiplos listeners duplicados
+    btn.replaceWith(btn.cloneNode(true));
+  });
+
+  document.querySelectorAll('.remover-produto').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const wrapper = btn.closest('.produto-wrapper');
+      if (!wrapper) return;
+      wrapper.remove();
+    });
+  });
+}
+
+// inicializa ao carregar
+document.addEventListener('DOMContentLoaded', ativarRemoverProdutos);
+
+// Se você adicionar produtos dinamicamente, chame ativarRemoverProdutos() após a inserção.
+

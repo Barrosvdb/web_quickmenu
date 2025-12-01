@@ -247,6 +247,9 @@ a {
 }
 
 /* --- NOVO: Botão de Remoção ('X') --- */
+
+    transform: scale(1.05);
+ 
 .remover-btn {
     position: absolute;
     /* Posição para o canto superior direito do .item-destaque */
@@ -302,7 +305,6 @@ a {
 .adicionar button:hover {
     background-color: #ffe8dc;
     border-color: #ff7b4f;
-    transform: scale(1.05);
 }
 
 /* SEÇÃO CATEGORIAS */
@@ -312,73 +314,115 @@ a {
     gap: 15px;
     margin-top: 15px;
 }
+/* wrapper que serve de referência para o botão X */
+.produto-wrapper {
+  position: relative;          /* referência para o botão */
+  margin-bottom: 8px;          /* espaço entre produtos */
+  /* Não altere display do conteúdo interno: o produto-item continua sendo flex */
+}
 
-/* CLASSE PRINCIPAL QUE CONTROLA O LAYOUT LADO A LADO */
+/* produto em si (seu estilo já existente, só reforço position e padding) */
 .produto-item {
-    display: flex; 
-    align-items: flex-start; /* Alinha pelo topo da imagem */
-    gap: 15px; 
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
+  position: relative; /* seguro redundante */
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  background: transparent; /* mantém mesmo visual */
 }
 
-.produto-imagem {
-    width: 80px; 
-    height: 80px; 
-    border-radius: 8px; 
-    overflow: hidden; 
-    /* REMOVIDO: margin-right: 15px; (o gap em .produto-item já faz isso) */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* Garante que a imagem não encolha */
-    flex-shrink: 0; 
+/* botão remover (externo no canto superior direito do wrapper) */
+.remover-btn {
+  position: absolute;
+  top: -12px;            /* posiciona fora do box, acima */
+  right: -12px;          /* posiciona fora do box, à direita */
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  z-index: 30;
+  transition: transform .12s ease, background-color .12s ease;
 }
 
+/* hover */
+.remover-btn:hover {
+  transform: scale(1.07);
+  background-color: #cc0000;
+}
+
+/* pequena correção para imagens inline (mantém o mesmo look) */
 .produto-imagem img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
-/* DETALHES (NOME E DESCRIÇÃO) */
+/* DETALHES */
 .produto-detalhes {
-    /* Cresce para ocupar o espaço central */
-    flex-grow: 1; 
-    /* Remove margens padrão de <h4/> e <p/> para melhor alinhamento */
-    padding: 0; 
-    margin: 0;
+    flex-grow: 1;
 }
 
 .produto-nome {
-    margin: 0 0 4px 0; /* Pequena margem abaixo do nome */
+    margin: 0 0 4px;
     font-size: 1.1em;
 }
 
 .produto-descricao {
-    margin: 0; /* Remove margem padrão */
+    margin: 0;
     font-size: 0.9em;
     color: #666;
 }
 
 .produto-preco {
-    /* Garante que o preço fique fixo à direita */
-    flex-shrink: 0; 
+    flex-shrink: 0;
     font-weight: bold;
-    color: #333; 
-    
-    /* MODIFICAÇÃO: Diminui a fonte */
-    font-size: 0.9em; 
+    font-size: 0.9em;
+    margin-top: 5px;
 }
 
+/* BOTÃO: ADICIONAR CATEGORIA */
 .btn-add-categoria {
     background-color: #ff7b4f;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 10px;
     border-radius: 5px;
     cursor: pointer;
-    width: fit-content;
     font-weight: bold;
     text-transform: uppercase;
+    margin-right: 1200px;
+}
+
+/* BOTÃO REMOVER PRODUTO */
+.remover-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #333f;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.remover-btn:hover {
+    background-color: #cc0000;
+}
+
+.produto-item {
+    position: relative; /* NECESSÁRIO para o botão aparecer */
 }
