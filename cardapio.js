@@ -334,7 +334,7 @@ document.addEventListener("click", e => {
 // ===============================
 // REMOVER PRODUTO 
 //------------------
-f// função que adiciona o evento de remover para todos os botões existentes
+// função que adiciona o evento de remover para todos os botões existentes
 function ativarRemoverProdutos() {
   document.querySelectorAll('.remover-produto').forEach(btn => {
     // evita múltiplos listeners duplicados

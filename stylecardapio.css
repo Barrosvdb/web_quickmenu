@@ -247,8 +247,6 @@ a {
 }
 
 /* --- NOVO: Botão de Remoção ('X') --- */
-
-    transform: scale(1.05);
  
 .remover-btn {
     position: absolute;
