@@ -40,6 +40,25 @@ const params = new URLSearchParams(window.location.search);
 const restauranteId = params.get("id");
 
 // ---------------------------------------------------------------
+// CORREÇÃO DE NAVEGAÇÃO: Adiciona o ID aos links imediatamente
+// Esta é a solução para o problema de navegação.
+// ---------------------------------------------------------------
+const currentParams = window.location.search;
+if (currentParams) {
+    const sidebarLinks = document.querySelectorAll('.sidebar a');
+    
+    sidebarLinks.forEach(link => {
+        let originalHref = link.getAttribute('href');
+        if (originalHref && !originalHref.startsWith('http')) {
+            // Adiciona o parâmetro ID (?id=...) ao final do link de destino
+            link.href = originalHref + currentParams; 
+        }
+    });
+}
+// ---------------------------------------------------------------
+
+
+// ---------------------------------------------------------------
 // ELEMENTOS DA PÁGINA
 // ---------------------------------------------------------------
 const nomeRestEl = document.querySelector(".nome-restaurante");
@@ -90,10 +109,11 @@ descRestEl.addEventListener("input", async () => {
 });
 
 // ---------------------------------------------------------------
-// LOGIN
+// LOGIN (Verificação de login e Carregamento de dados)
 // ---------------------------------------------------------------
 onAuthStateChanged(auth, (user) => {
     if (!user) return (window.location.href = "login.html");
+    // Se o usuário estiver logado, carrega os dados
     carregarRestaurante(user.uid);
 });
 
@@ -102,6 +122,7 @@ onAuthStateChanged(auth, (user) => {
 //Img retaurante 
 //-------------------------------
 document.addEventListener('DOMContentLoaded', () => {
+    // Certifique-se de que este bloco só é executado após o DOM estar pronto
     const imageUpload = document.getElementById('image-upload');
     const fileInput = document.getElementById('file-input');
     const removeBtn = document.getElementById('remove-image-btn');
@@ -134,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 imageUpload.prepend(img); // Adiciona a imagem no início do contêiner
 
                 // Controla a visibilidade:
-                removeBtn.style.display = 'flex'; // Torna o botão visível
+                if (removeBtn) removeBtn.style.display = 'flex'; // Adicionado checagem
                 imageUpload.classList.add('has-image'); // Adiciona classe para ocultar o SVG placeholder
             };
             
@@ -143,20 +164,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 3. Lógica de Remoção da Imagem (Botão de remoção click)
-    removeBtn.addEventListener('click', () => {
-        // Encontra e remove o elemento <img>
-        const img = imageUpload.querySelector('img');
-        if (img) {
-            img.remove();
-        }
+    if (removeBtn) { // Adicionado checagem
+        removeBtn.addEventListener('click', () => {
+            // Encontra e remove o elemento <img>
+            const img = imageUpload.querySelector('img');
+            if (img) {
+                img.remove();
+            }
 
-        // Limpa o valor do input file para que o usuário possa carregar a mesma imagem novamente, se quiser.
-        fileInput.value = '';
+            // Limpa o valor do input file para que o usuário possa carregar a mesma imagem novamente, se quiser.
+            fileInput.value = '';
 
-        // Controla a visibilidade:
-        removeBtn.style.display = 'none'; // Oculta o botão
-        imageUpload.classList.remove('has-image'); // Remove a classe para reexibir o SVG placeholder
-    });
+            // Controla a visibilidade:
+            removeBtn.style.display = 'none'; // Oculta o botão
+            imageUpload.classList.remove('has-image'); // Remove a classe para reexibir o SVG placeholder
+        });
+    }
 });
 
 //------------------------------ 
@@ -174,6 +197,7 @@ let categorias = [];
 // -------------------------------
 function renderDestaques() {
     const lista = document.getElementById("listaDestaques");
+    if (!lista) return; // Adicionado checagem para elemento inexistente
     lista.innerHTML = "";
 
     destaques.forEach((item, index) => {
@@ -207,6 +231,7 @@ function renderDestaques() {
 // -------------------------------
 function renderCategorias() {
     const lista = document.getElementById("listaCategorias");
+    if (!lista) return; // Adicionado checagem para elemento inexistente
     lista.innerHTML = "";
 
     categorias.forEach((categoria, catIndex) => {
@@ -248,13 +273,16 @@ function renderCategorias() {
 
         lista.appendChild(bloco);
     });
+    
+    // Se você usa o ativarRemoverProdutos, chame-o aqui após a renderização
+    // ativarRemoverProdutos(); 
 }
 // ===============================
 // ADICIONAR DESTAQUE
 // ===============================
 
-// Corrigido: ID correto do botão (igual ao HTML)
-document.getElementById("adicionar-destaque-btn").addEventListener("click", () => {
+// Corrigido: Adicionado optional chaining (?) para evitar erro se o elemento não existir
+document.getElementById("adicionar-destaque-btn")?.addEventListener("click", () => {
 
     const img = prompt("URL da imagem (ou deixe vazio):");
     const nome = prompt("Nome do item:");
@@ -288,7 +316,7 @@ document.addEventListener("click", e => {
 // ADICIONAR CATEGORIA
 // ===============================
 
-// Corrigido: ID esperado pelo HTML
+// Corrigido: Mantido o optional chaining (?)
 document.getElementById("addCategoriaBtn")?.addEventListener("click", () => {
 
     const nome = prompt("Nome da categoria:");
@@ -350,7 +378,7 @@ function ativarRemoverProdutos() {
 }
 
 // inicializa ao carregar
+// Nota: Em módulos (script type="module"), o DOM já está pronto quando o script é executado.
+// A função ativaRemoverProdutos só é realmente necessária se você adicionar produtos/categorias
+// *depois* da renderização inicial.
 document.addEventListener('DOMContentLoaded', ativarRemoverProdutos);
-
-// Se você adicionar produtos dinamicamente, chame ativarRemoverProdutos() após a inserção.
-
