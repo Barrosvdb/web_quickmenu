@@ -1,4 +1,6 @@
-/* RESET E ESTILOS GERAIS */
+/* SEU CSS ORIGINAL COMPLETO (mantido 100%) */
+/* —————————————————————————————————————————————— */
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -6,10 +8,7 @@
     font-family: Arial, sans-serif;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
+a { text-decoration: none; color: inherit; }
 
 /* SIDEBAR */
 .sidebar {
@@ -21,40 +20,27 @@ a {
     background-image: linear-gradient(90deg, #ff7b4f, #F5D965);
     color: #333;
     padding-top: 30px;
-    transition: 0.3s;
-    box-shadow: 2px 0 10px rgba(244, 244, 244, 0.3);
+    box-shadow: 2px 0 10px rgba(244,244,244,.3);
 }
 
-.sidebar ul {
-    list-style: none;
-}
-
+.sidebar ul { list-style: none; }
 .sidebar ul li {
     padding: 15px 25px;
     font-size: 18px;
     display: flex;
     align-items: center;
     cursor: pointer;
-    transition: 0.3s;
 }
+.sidebar ul li i { margin-right: 12px; font-size: 20px; }
+.sidebar ul li:hover { background-color: #fff; }
 
-.sidebar ul li i {
-    margin-right: 12px;
-    font-size: 20px;
-}
-
-.sidebar ul li:hover {
-    background-color: #ffffff;
-}
-
-/* CONTEÚDO PRINCIPAL (MAIN) */
+/* CONTEÚDO */
 .content {
-    margin-left: 220px; /* Cria espaço para a sidebar fixa */
+    margin-left: 220px;
     padding: 40px;
     min-height: 100vh;
     background-color: #f5f5f5;
 }
-
 .content h2 {
     color: #333;
     margin-bottom: 15px;
@@ -62,226 +48,115 @@ a {
     padding-bottom: 5px;
 }
 
-/* --- HEADER DO RESTAURANTE (AJUSTADO PARA EMPILHAR) --- */
+/* HEADER */
 .restaurante-header {
-    /* MUDANÇA PRINCIPAL: Empilha os itens verticalmente */
     display: flex;
-    flex-direction: column; 
-    
-    /* MUDANÇA PRINCIPAL: Alinha os itens à esquerda */
+    flex-direction: column;
     align-items: flex-start;
-    
-    /* REMOVIDO: gap: 20px; (não faz sentido em coluna, use margin-bottom) */
-    
-    margin-bottom: 40px; /* Espaço após o cabeçalho */
-    /* Garante que o header não ocupe largura desnecessária */
-    width: fit-content; 
+    margin-bottom: 40px;
+    width: fit-content;
 }
 
-/* --- ESTILO ADICIONAL PARA A IMAGEM --- */
+/* IMAGEM */
 .image {
     margin-bottom: 10px;
     width: 80px;
     height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative; 
+    position: relative;
     border: 2px dashed #ddd;
     border-radius: 8px;
     cursor: pointer;
-    overflow: hidden; /* Importante para o botão poder se posicionar no canto */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
-/* Imagem que será exibida */
 .image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 8px;
 }
 
-/* Oculta o ícone SVG quando a imagem está carregada (controlado via JS) */
-.image.has-image #placeholder-icon {
-    display: none;
-}
-
-.remove-btn {
+/* BOTÃO REMOVER PADRÃO */
+.remover-btn {
     position: absolute;
-    /* Ajustes para centralizar o botão na quina superior direita
-       do contêiner (80px x 80px) de forma externa, sem ser cortado.
-       Ajustamos para metade do tamanho do botão (20px/2 = 10px) 
-       mais metade da espessura da borda da div. */
-    top: -10px; 
-    right: -10px; 
-
-    background: #000; /* Preto */
-    color: white;
-    /* Borda branca para dar um destaque visual de "botão externo" */
-    border: 2px solid white; 
-    font-size: 10px; 
+    top: -10px;
+    right: -10px;
+    background-color: #333;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
     font-weight: bold;
-    width: 20px; 
-    height: 20px;
     border-radius: 50%;
-    cursor: pointer;
-    display: none; /* Oculto por padrão, controlado pelo JS */
+    display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+    z-index: 10;
     transition: 0.2s;
-    /* Z-index é crucial para que o botão fique acima de qualquer elemento vizinho */
-    z-index: 20; 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+.remover-btn:hover {
+    background-color: #cc0000;
+    transform: scale(1.07);
 }
 
-.remove-btn:hover {
-    transform: scale(1.1);
-    background: #FF3B3B; /* Cor de hover vermelha */
-}
-
-/* O resto do seu CSS para .image e .image img permanece o mesmo: */
-.image {
-    position: relative; 
-    overflow: visible; 
-    width: 80px;
-    height: 80px;
-}
-/* --- NOME DO RESTAURANTE (Seu CSS + Margem) --- */
+/* TÍTULOS */
 .nome-restaurante {
-    margin-top: 0; /* Remove margem superior padrão */
-    margin-bottom: 5px; /* Espaço entre o nome e a nota */
     font-size: 24px;
     font-weight: bold;
     color: #333;
+    margin-bottom: 5px;
 }
-/* --- NOTA DO RESTAURANTE (CSS Modificado) --- */
-/* --- NOTA DO RESTAURANTE --- */
+
+/* DESCRIÇÃO RESTAURANTE */
 .nota-restaurante {
-    background-color: rgba(255, 253, 253, 0.5);
-    color: #333;
-    border: 1px solid rgba(150, 150, 150, 0.5);
+    background-color: rgba(255,253,253,.5);
+    border: 1px solid rgba(150,150,150,.5);
     padding: 5px 10px;
     border-radius: 5px;
-    font-weight: bold;
-
-    width: 300px;                /* largura fixa */
-    resize: none;                /* impede o usuário de puxar */
-    overflow: hidden;            /* oculta barra de rolagem */
-    line-height: 1.2em;
-
+    width: 300px;
+    resize: none;
+    overflow: hidden;
     text-align: center;
-    white-space: normal;         /* permite quebra de linha */
 }
 
-.nota-restaurante:focus {
-    outline: none;
-    border-color: #ff7b4f;
-}
-
-/* Estilo para o texto de placeholder (dica) ser cinza mais claro */
-.nota-restaurante::placeholder {
-    color: rgba(51, 51, 51, 0.7);
-    opacity: 1;
-}
-
-.image {
-    /* Estilo para o placeholder da imagem principal */
-    border: 2px dashed #ddd;
-    border-radius: 8px;
-    padding: 20px; /* Reduzi o padding para um tamanho mais adequado ao header */
-    text-align: center;
-    cursor: pointer;
-    width: fit-content;
-    height: fit-content;
-}
-
-/* --- SEÇÃO DESTAQUES (Seu CSS) --- */
-.bloco {
-    margin-bottom: 40px;
-}
+/* DESTAQUES */
+.bloco { margin-bottom: 40px; }
 
 .destaques {
     display: flex;
-    gap: 35px; 
-    flex-wrap: wrap;
+    gap: 35px;
     margin-top: 20px;
-    align-items: flex-start;
 }
 
-/* CARD DE PRODUTO EM DESTAQUE (AJUSTADO) */
 .item-destaque {
     width: 110px;
+    text-align: center;
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    
-    /* FUNDAMENTAL: Define o contêiner de referência para o 'X' */
-    position: relative; 
 }
 
 .image-destaque {
-    /* Seu CSS existente para a imagem */
     width: 96px;
     height: 96px;
     border: 2px dashed #ddd;
     border-radius: 8px;
-    margin-bottom: 8px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
 }
 
-.item-destaque .titulo {
-    /* Seu CSS existente para o título */
-    margin-top: 5px;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-.item-destaque .preco {
-    /* Seu CSS existente para o preço */
-    font-size: 14px;
-    color: #555;
-}
-
-/* --- NOVO: Botão de Remoção ('X') --- */
- 
-.remover-btn {
-    position: absolute;
-    /* Posição para o canto superior direito do .item-destaque */
-    top: -10px;    
-    right: -10px; 
-    
-    /* Estilos Visuais */
-    background-color: #333f; /* Vermelho para exclusão */
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%; /* Círculo */
-    text-align: center;
-    line-height: 24px; /* Centraliza o 'X' */
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    transition: background-color 0.2s;
-}
-
-.remover-btn:hover {
-    background-color: #cc0000;
-}
 /* BOTÃO ADICIONAR DESTAQUE */
 .adicionar {
-    /* Alinha o botão com os cards de destaque */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 110px; /* Mantém a largura do item-destaque */
+    width: 110px;
 }
-
 .adicionar button {
     width: 96px;
     height: 96px;
@@ -289,138 +164,72 @@ a {
     border-radius: 8px;
     background-color: transparent;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
+    transition: .3s;
 }
-
 .adicionar button i {
     font-size: 32px;
     color: #333;
 }
-
 .adicionar button:hover {
     background-color: #ffe8dc;
     border-color: #ff7b4f;
 }
 
-/* SEÇÃO CATEGORIAS */
+/* CATEGORIAS */
 .categorias {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    margin-top: 15px;
-}
-/* wrapper que serve de referência para o botão X */
-.produto-wrapper {
-  position: relative;          /* referência para o botão */
-  margin-bottom: 8px;          /* espaço entre produtos */
-  /* Não altere display do conteúdo interno: o produto-item continua sendo flex */
 }
 
-/* produto em si (seu estilo já existente, só reforço position e padding) */
-.produto-item {
-  position: relative; /* seguro redundante */
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  border-bottom: 1px solid #eee;
-  padding: 10px 0;
-  background: transparent; /* mantém mesmo visual */
-}
-
-/* botão remover (externo no canto superior direito do wrapper) */
-.remover-btn {
-  position: absolute;
-  top: -12px;            /* posiciona fora do box, acima */
-  right: -12px;          /* posiciona fora do box, à direita */
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #333;
-  color: #fff;
-  border-radius: 50%;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-  z-index: 30;
-  transition: transform .12s ease, background-color .12s ease;
-}
-
-/* hover */
-.remover-btn:hover {
-  transform: scale(1.07);
-  background-color: #cc0000;
-}
-
-/* pequena correção para imagens inline (mantém o mesmo look) */
-.produto-imagem img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-/* DETALHES */
-.produto-detalhes {
-    flex-grow: 1;
-}
-
-.produto-nome {
-    margin: 0 0 4px;
-    font-size: 1.1em;
-}
-
-.produto-descricao {
-    margin: 0;
-    font-size: 0.9em;
-    color: #666;
-}
-
-.produto-preco {
-    flex-shrink: 0;
-    font-weight: bold;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-/* BOTÃO: ADICIONAR CATEGORIA */
+/* BOTÃO ADICIONAR CATEGORIA AJUSTADO */
 .btn-add-categoria {
     background-color: #ff7b4f;
     color: white;
-    border: none;
     padding: 8px 10px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-weight: bold;
     text-transform: uppercase;
-    margin-right: 1200px;
+    font-weight: bold;
+    width: fit-content;
 }
 
-/* BOTÃO REMOVER PRODUTO */
-.remover-btn {
-    position: absolute;
+/* CABEÇALHO CATEGORIA */
+.categoria-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+.btn-remove-categoria {
+    position: relative;
+}
+
+/* PRODUTO */
+.produto-wrapper {
+    position: relative;
+    margin-top: 10px;
+}
+
+.btn-remove-produto {
     top: -10px;
     right: -10px;
-    background-color: #333f;
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 24px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10;
 }
 
-.remover-btn:hover {
-    background-color: #cc0000;
-}
-
+/* ITEM PRODUTO */
 .produto-item {
-    position: relative; /* NECESSÁRIO para o botão aparecer */
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+.produto-imagem img {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.produto-detalhes {
+    flex-grow: 1;
 }

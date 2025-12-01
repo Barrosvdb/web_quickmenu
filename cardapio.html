@@ -21,10 +21,10 @@
     </aside>
 
     <main class="content">
+        <!-- logo do restaurante -->
         <div class="restaurante-header">
             <div class="image" id="image-upload">
                 <input type="file" id="file-input" accept="image/*" hidden>
-                <div class="remover-btn">X</div>
                 <svg id="placeholder-icon" xmlns="http://www.w3.org/2000/svg" width="500" height="100" fill="#ff7b4f"
                     viewBox="0 0 16 16">
                     <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
@@ -33,39 +33,55 @@
                 </svg>
             </div>
 
-
             <h1 class="nome-restaurante">Nome do Restaurante</h1>
             <textarea class="nota-restaurante" placeholder="Insira a descrição do restaurante" value=""></textarea>
-
-
         </div>
+
+        <!-- DESTAQUES -->
         <section class="bloco destaques-section">
             <h2>Destaques</h2>
             <div class="destaques">
                 <div class="item-destaque">
                     <div class="remover-btn">X</div>
-                    <div class="image-destaque"> <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"
-                            fill="#ff7b4f" viewBox="0 0 16 16">
+                    <div class="image-destaque">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ff7b4f"
+                            viewBox="0 0 16 16">
                             <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                             <path
                                 d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                        </svg> </div>
+                        </svg>
+                    </div>
                     <p class="titulo">Item 1</p>
                     <p class="preco">R$ 0,00</p>
                 </div>
-                <div class="adicionar"> <button><i class="fa-solid fa-plus"></i></button> </div>
+                <div class="adicionar">
+                    <button><i class="fa-solid fa-plus"></i></button>
+                </div>
             </div>
         </section>
+
+        <!-- CATEGORIAS -->
         <section class="bloco categorias-section">
             <h2>Categorias</h2>
+
             <div class="categorias">
-                <button class="btn-add-categoria"> <i class="fa-solid fa-plus"></i> adicionar categoria </button>
+
+                <!-- Botão adicionar categoria corrigido -->
+                <button class="btn-add-categoria">
+                    <i class="fa-solid fa-plus"></i> adicionar categoria
+                </button>
+
                 <div class="categoria-secao">
-                    <h3 class="nome-categoria">salgados</h3>
-                    <!-- Exemplo de um produto dentro da lista-produtos -->
+
+                    <div class="categoria-header">
+                        <h3 class="nome-categoria">salgados</h3>
+
+                        <!-- Novo botão remover categoria -->
+                        <div class="remover-btn btn-remove-categoria">X</div>
+                    </div>
+
                     <div class="produto-wrapper">
-                        <!-- Botão remover posicionado em relação ao wrapper -->
-                        <div class="remover-btn remover-produto" title="Remover produto">X</div>
+                        <div class="remover-btn btn-remove-produto">X</div>
 
                         <div class="produto-item">
                             <div class="produto-imagem">
@@ -79,16 +95,16 @@
                                 </p>
                                 <p class="produto-preco">R$30,00</p>
                             </div>
+
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
-            
-            </div>
-        </section>
 
+        </section>
     </main>
+
     <script src="zoom.js"></script>
     <script src="notacardapio.js"></script>
 </body>
