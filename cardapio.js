@@ -159,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 //------------------------------ 
 //sessaõ destaques
 //----------------------------------
