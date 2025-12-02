@@ -1,131 +1,146 @@
+/* =============================== */
+/*           CSS GERAL E RESET        */
+/* =============================== */
+
 /* RESET – remove margens/paddings padrão e define fonte base */
 * {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-a { text-decoration: none; color: inherit; }
+a {
+    text-decoration: none;
+    color: inherit;
+}
 
 /* SIDEBAR – barra lateral fixa com menu */
 .sidebar {
-position: fixed;
-left: 0;
-top: 0;
-width: 220px;
-height: 100vh;
-background-image: linear-gradient(90deg, #ff7b4f, #F5D965);
-color: #333;
-padding-top: 30px;
-box-shadow: 2px 0 10px rgba(244,244,244,.3);
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 220px;
+    height: 100vh;
+    background-image: linear-gradient(90deg, #ff7b4f, #F5D965);
+    color: #333;
+    padding-top: 30px;
+    box-shadow: 2px 0 10px rgba(244,244,244,.3);
 }
 
-.sidebar ul { list-style: none; }
+.sidebar ul {
+    list-style: none;
+}
 
 .sidebar ul li {
-padding: 15px 25px;
-font-size: 18px;
-display: flex;
-align-items: center;
-cursor: pointer;
+    padding: 15px 25px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
-.sidebar ul li i { margin-right: 12px; font-size: 20px; }
+.sidebar ul li i {
+    margin-right: 12px;
+    font-size: 20px;
+}
 
-.sidebar ul li:hover { background-color: #fff; }
+.sidebar ul li:hover {
+    background-color: #fff;
+}
 
 /* CONTEÚDO – área principal alinhada à direita da sidebar */
 .content {
-margin-left: 220px;
-padding: 40px;
-min-height: 100vh;
-background-color: #f5f5f5;
+    margin-left: 220px;
+    padding: 40px;
+    min-height: 100vh;
+    background-color: #f5f5f5;
 }
 
 .content h2 {
-color: #333;
-margin-bottom: 15px;
-border-bottom: 2px solid #ddd;
-padding-bottom: 5px;
+    color: #333;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
 }
 
 /* HEADER DO RESTAURANTE – logo + nome + descrição */
 .restaurante-header {
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-margin-bottom: 40px;
-width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    width: fit-content;
 }
 
 /* ÁREA DA IMAGEM PRINCIPAL – com borda pontilhada */
+/* Nota: A classe .image é usada aqui e no modal, o seletor de ID é mais seguro no modal */
 .image {
-margin-bottom: 10px;
-width: 400px;
-height: 100px;
-position: relative;
-border: 2px dashed #ddd;
-border-radius: 8px;
-cursor: pointer;
-overflow: hidden;
-display: flex;
-justify-content: center;
-align-items: center;
+    margin-bottom: 10px;
+    width: 400px;
+    height: 100px;
+    position: relative;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .image img {
-width: 100%;
-height: 100%;
-object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* BOTÃO DE REMOVER (X) – padrão para todas áreas */
 .remover-btn {
-position: absolute;
-top: -10px;
-right: -10px;
-background-color: #333;
-color: #fff;
-width: 24px;
-height: 24px;
-font-size: 14px;
-font-weight: bold;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-z-index: 10;
-transition: 0.2s;
-box-shadow: 0 0 5px rgba(0,0,0,0.3);
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #333;
+    color: #fff;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: 0.2s;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
 }
 
 .remover-btn:hover {
-background-color: #cc0000;
-transform: scale(1.07);
+    background-color: #cc0000;
+    transform: scale(1.07);
 }
 
 /* TÍTULO DO RESTAURANTE */
 .nome-restaurante {
-font-size: 24px;
-font-weight: bold;
-color: #333;
-margin-bottom: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
 }
 
 /* DESCRIÇÃO DO RESTAURANTE */
 .nota-restaurante {
-background-color: rgba(255,253,253,.5);
-border: 1px solid #ddd;
-padding: 5px 10px;
-border-radius: 5px;
-width: 300px;
-resize: none;
-overflow: hidden;
-text-align: center;
+    background-color: rgba(255,253,253,.5);
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 300px;
+    resize: none;
+    overflow: hidden;
+    text-align: center;
 }
- 
+ 
 .nota-restaurante:focus {
     border-color: #ff7b4f;
     outline: none;
@@ -133,142 +148,151 @@ text-align: center;
 }
 
 /* BLOCO PADRÃO – usado para Destaques e Categorias */
-.bloco { margin-bottom: 40px; }
+.bloco {
+    margin-bottom: 40px;
+}
 
 /* LISTA DESTAQUES – organiza os itens lado a lado */
 .destaques {
-display: flex;
-gap: 35px;
-margin-top: 20px;
-align-items: center;
+    display: flex;
+    gap: 35px;
+    margin-top: 20px;
+    align-items: center;
 }
 
 /* ITEM DESTAQUE – bloco individual do destaque */
 .item-destaque {
-width: 110px;
-text-align: center;
-position: relative;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: flex-start;
-height: 140px;
+    width: 110px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 140px;
 }
 
 /* TEXTOS DO DESTAQUE – nome e preço */
 .info-destaque {
-margin-top: 5px;
-text-align: center;
-display: flex;
-flex-direction: column;
+    margin-top: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 /* IMAGEM DO DESTAQUE */
 .image-destaque {
-width: 96px;
-height: 96px;
-border: 2px dashed #ddd;
-border-radius: 8px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
+    width: 96px;
+    height: 96px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 
-/* BOTÃO ADICIONAR DESTAQUE */
+/* BOTÃO ADICIONAR DESTAQUE/PRODUTO */
 .adicionar {
-width: 110px;
-text-align: center;
-position: relative;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: flex-start;
-height: 140px;
+    width: 110px;
+    text-align: center;
+    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    height: 140px;
 }
 
 .adicionar button {
-width: 96px;
-height: 96px;
-border: 2px dashed #ddd;
-border-radius: 8px;
-background-color: transparent;
-cursor: pointer;
-transition: .3s;
+    width: 96px;
+    height: 96px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: .3s;
 }
 
-.adicionar button i { font-size: 32px; color: #333; }
+.adicionar button i {
+    font-size: 32px;
+    color: #333;
+}
 
 .adicionar button:hover {
-background-color: #ffe8dc;
-border-color: rgb(255, 123, 79);
+    background-color: #ffe8dc;
+    border-color: rgb(255, 123, 79);
 }
 
 /* CATEGORIAS – organiza categorias em coluna */
 .categorias {
-display: flex;
-flex-direction: column;
-gap: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 /* BOTÃO ADICIONAR CATEGORIA */
 .btn-add-categoria {
-background-color: #ff7b4f;
-color: white;
-padding: 8px 10px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-text-transform: uppercase;
-font-weight: bold;
-width: fit-content;
+    background-color: #ff7b4f;
+    color: white;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    width: fit-content;
 }
 
 /* CABEÇALHO DA CATEGORIA – nome + botão remover */
 .categoria-header {
-display: flex;
-align-items: center;
-gap: 10px;
-position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
 }
 
 .btn-remove-categoria {
-position: relative;
+    position: relative;
 }
 
 /* WRAPPER DO PRODUTO – envolve o item e o botão X */
 .produto-wrapper {
-position: relative;
-margin-top: 10px;
+    position: relative;
+    margin-top: 10px;
 }
 
 /* BOTÃO REMOVER PRODUTO – usa padrão e aqui reposiciona */
 .btn-remove-produto {
-top: -10px;
-right: -10px;
+    top: -10px;
+    right: -10px;
 }
 
 /* ITEM PRODUTO – imagem + textos */
 .produto-item {
-display: flex;
-gap: 15px;
-padding: 10px 0;
-border-bottom: 1px solid #eee;
+    display: flex;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
 }
 
 /* IMAGEM DO PRODUTO */
 .produto-imagem img {
-width: 90px;
-height: 90px;
-border-radius: 8px;
-object-fit: cover;
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
 }
 
 /* DETALHES DO PRODUTO – nome, descrição, preço */
 .produto-detalhes {
-flex-grow: 1;
+    flex-grow: 1;
 }
+
+/* =============================== */
+/*               ESTILOS DO MODAL           */
+/* =============================== */
+
+/* Modal Principal (dialog) */
 dialog {
     border: none;
     border-radius: 12px;
@@ -276,11 +300,17 @@ dialog {
     width: 90%;
     max-width: 500px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-    position: fixed;
+    position: fixed; /* Mantido para melhor controle da posição */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
+}
+
+/* Centralização do Modal */
+dialog:modal {
+    display: block;
+    margin: auto;
 }
 
 /* Fundo escurecido atrás do modal */
@@ -328,28 +358,26 @@ dialog::backdrop {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* Corpo do modal */
-.modal-body {
+/* Corpo do modal / Formulário - Usando ID para o formulário */
+#form-produto {
     padding: 30px;
-    background-color: #fff;
+    background-color: #fff; /* Fundo mais claro para o corpo */
 }
 
-/* Grupo de input */
-.input-group {
-    margin-bottom: 20px;
-}
-
-.input-group label {
+/* Labels e Inputs */
+#form-produto label {
     font-weight: 600;
+    margin-top: 15px;
     margin-bottom: 6px;
     display: block;
     color: #333;
 }
 
-.input-group input {
+#form-produto input,
+#form-produto textarea {
     width: 100%;
     padding: 12px;
-    border: 2px solid #ddd;
+    border: 2px solid #ddd; /* Aumentado a espessura da borda para melhor visualização */
     border-radius: 8px;
     font-size: 16px;
     box-sizing: border-box;
@@ -357,22 +385,83 @@ dialog::backdrop {
     transition: border-color 0.3s;
 }
 
-.input-group input:focus {
+#form-produto input:focus,
+#form-produto textarea:focus {
     border-color: #ff7b4f;
     outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 123, 79, 0.2);
 }
 
-/* Rodapé do modal com botões */
+#form-produto textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* =============================== */
+/*      ÁREA DE UPLOAD DE IMAGEM  */
+/* =============================== */
+
+/* Wrapper da área de upload */
+#area-upload {
+    width: 100%;
+    max-width: 260px;
+    height: 180px;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+/* Hover */
+#area-upload:hover {
+    border-color: #ff7b4f;
+    background: #f5f5f5;
+}
+
+/* Imagem pré-visualizada */
+#preview-imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    border-radius: 12px;
+}
+
+/* Botao Remover Imagem */
+#remover-imagem {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+    display: none;
+}
+
+/* Rodapé do modal com botões - Usando a classe .btn-group original */
 .btn-group {
     display: flex;
     gap: 15px;
     padding: 20px 30px;
-    background-color: #f9f9f9;
+    background-color: #f9f9f9; /* Fundo claro para o rodapé */
     border-radius: 0 0 12px 12px;
     justify-content: flex-end;
 }
 
-/* Botões do modal */
+/* Botões Padrão (.btn) */
 .btn {
     padding: 12px 24px;
     border: none;
@@ -392,6 +481,7 @@ dialog::backdrop {
     font-size: 14px;
 }
 
+/* Estilo do botão Sair/Cancelar */
 .btn-sair {
     background-color: #999;
     color: white;
@@ -401,6 +491,7 @@ dialog::backdrop {
     background-color: #777;
 }
 
+/* Estilo do botão Salvar/Principal */
 .btn-salvar {
     background-color: #ff7b4f;
     color: white;
@@ -410,6 +501,7 @@ dialog::backdrop {
     background-color: #e56a3f;
 }
 
+/* Estilo do botão Salvar Desabilitado */
 .btn-salvar:disabled {
     background-color: #ccc;
     cursor: not-allowed;
@@ -421,11 +513,11 @@ dialog::backdrop {
     .btn-group {
         flex-direction: column;
     }
-    
+
     .btn {
         width: 100%;
     }
-    
+
     dialog {
         width: 95%;
     }
