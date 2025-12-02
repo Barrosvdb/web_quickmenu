@@ -4,14 +4,16 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-import { 
-    initializeFirestore, 
-    persistentLocalCache, 
+import {
+    initializeFirestore,
+    persistentLocalCache,
     persistentMultipleTabManager,
     doc,
     onSnapshot,
-    updateDoc,       
-    setDoc           
+    updateDoc,
+    collection, // Importado
+    addDoc,     // Importado
+    serverTimestamp // Importado
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 // ---------------------------------------------------------------
@@ -23,6 +25,9 @@ const firebaseConfig = {
     projectId: "quickmenu-1234",
     storageBucket: "quickmenu-1234.firebasestorage.app",
 };
+
+// **IMPORTANTE**: Substitua pela sua chave API do ImgBB.
+const IMGBB_API_KEY = "SUA_CHAVE_API_DO_IMGBB_AQUI"; 
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -40,40 +45,100 @@ const params = new URLSearchParams(window.location.search);
 const restauranteId = params.get("id");
 
 // ---------------------------------------------------------------
-// CORREÇÃO DE NAVEGAÇÃO: Adiciona o ID aos links imediatamente
-// Esta é a solução para o problema de navegação.
+// CORREÇÃO DE NAVEGAÇÃO
 // ---------------------------------------------------------------
 const currentParams = window.location.search;
 if (currentParams) {
-    const sidebarLinks = document.querySelectorAll('.sidebar a');
-    
-    sidebarLinks.forEach(link => {
-        let originalHref = link.getAttribute('href');
-        if (originalHref && !originalHref.startsWith('http')) {
-            // Adiciona o parâmetro ID (?id=...) ao final do link de destino
-            link.href = originalHref + currentParams; 
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        let href = link.getAttribute('href');
+        if (href && !href.startsWith('http')) {
+            link.href = href + currentParams;
         }
     });
 }
-// ---------------------------------------------------------------
-
 
 // ---------------------------------------------------------------
-// ELEMENTOS DA PÁGINA
+// ELEMENTOS E VARIÁVEIS GLOBAIS
 // ---------------------------------------------------------------
 const nomeRestEl = document.querySelector(".nome-restaurante");
 const descRestEl = document.querySelector(".nota-restaurante");
 const imgRestEl = document.querySelector("#image-upload");
+const fileInputRest = document.getElementById('file-input');
+const placeholderIcon = document.getElementById('placeholder-icon');
+const removeImgRestBtn = document.getElementById('remove-image-btn');
 
-// Variável para armazenar ref do documento
 let restauranteRef = null;
+let userIdGlobal = null; 
+let categoriaAtual = null; // Armazena o nome da categoria selecionada
+
+// Elementos do Modal
+const modal = document.getElementById("modal-categoria");
+const btnAbrir = document.querySelector(".open-modal");
+const btnFechar = document.getElementById("btn-fechar-modal"); 
+const btnSair = document.getElementById("btn-sair");
+const formProduto = document.getElementById("form-produto");
+const salvarBtn = document.getElementById("btn-salvar");
+const inputNome = document.getElementById("nome");
+const inputPreco = document.getElementById("preco");
+const inputDescricao = document.getElementById("descricao");
+const areaUpload = document.getElementById("area-upload");
+const inputImagem = document.getElementById("imagem");
+const previewImagem = document.getElementById("preview-imagem");
+const textoUpload = document.getElementById("texto-upload");
+const removerImagemBtn = document.getElementById("remover-imagem");
+
+
+// ---------------------------------------------------------------
+// FUNÇÕES DE UTILIDADE
+// ---------------------------------------------------------------
+
+async function uploadToImgBB(file) {
+    // ... (Função uploadToImgBB inalterada) ...
+    const reader = new FileReader();
+
+    const base64Image = await new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result.split(",")[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+
+    const formData = new FormData();
+    formData.append("image", base64Image);
+
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: "POST",
+        body: formData,
+    });
+
+    const data = await res.json();
+    if (!data.success) throw new Error("Falha no upload da imagem para o ImgBB.");
+
+    return data.data.url;
+}
+
+function limparPreviewImagem() {
+    previewImagem.src = "";
+    previewImagem.style.display = "none";
+    inputImagem.value = "";
+    textoUpload.style.display = "block";
+    removerImagemBtn.style.display = "none";
+}
+
+function checkFormValidity() {
+    // **IMAGEM DO PRODUTO AGORA É OBRIGATÓRIA**
+    const isImageSelected = inputImagem.files.length > 0 || previewImagem.src; 
+    const isNameValid = inputNome.value.trim().length > 0;
+    const isPriceValid = parseFloat(inputPreco.value) > 0;
+
+    salvarBtn.disabled = !(isImageSelected && isNameValid && isPriceValid);
+}
 
 // ---------------------------------------------------------------
 // CARREGAR RESTAURANTE
 // ---------------------------------------------------------------
 function carregarRestaurante(userId) {
     restauranteRef = doc(db, "operadores", userId, "restaurantes", restauranteId);
-
+    // ... (onSnapshot e lógica visual inalterada) ...
     onSnapshot(restauranteRef, (snapshot) => {
         if (!snapshot.exists()) {
             alert("Restaurante não encontrado.");
@@ -82,303 +147,242 @@ function carregarRestaurante(userId) {
 
         const dados = snapshot.data();
 
-        nomeRestEl.textContent = dados.nome || "Sem nome";
+        nomeRestEl.textContent = dados.nome || "Nome do Restaurante";
         descRestEl.value = dados.descricao || "";
 
+        // Limpa o conteúdo anterior
+        imgRestEl.querySelectorAll('img, #placeholder-icon, #remove-image-btn').forEach(el => {
+            if (el.id !== 'file-input' && el.id !== 'remove-image-btn') el.remove();
+        });
+        
+        // Exibe a imagem ou o placeholder
         if (dados.imageUrl) {
-            imgRestEl.innerHTML = `
-                <img src="${dados.imageUrl}" style="width:120px; border-radius:10px;">
-            `;
+            const img = document.createElement('img');
+            img.src = dados.imageUrl;
+            img.style.width = '120px'; 
+            img.style.borderRadius = '10px';
+            imgRestEl.prepend(img);
+            removeImgRestBtn.style.display = 'block';
+            if(placeholderIcon) placeholderIcon.style.display = 'none';
+            imgRestEl.classList.add('has-image');
+        } else {
+            if(placeholderIcon) {
+                if (!imgRestEl.contains(placeholderIcon)) imgRestEl.prepend(placeholderIcon);
+                placeholderIcon.style.display = 'block';
+            }
+            removeImgRestBtn.style.display = 'none';
+            imgRestEl.classList.remove('has-image');
         }
     });
 }
 
 // ---------------------------------------------------------------
-// SALVAR ALTERAÇÕES DA DESCRIÇÃO EM TEMPO REAL
+// AUTOSAVE DESCRIÇÃO
 // ---------------------------------------------------------------
 descRestEl.addEventListener("input", async () => {
     if (!restauranteRef) return;
 
     try {
-        await updateDoc(restauranteRef, {
-            descricao: descRestEl.value
-        });
+        await updateDoc(restauranteRef, { descricao: descRestEl.value });
     } catch (erro) {
         console.error("Erro ao salvar descrição:", erro);
     }
 });
 
 // ---------------------------------------------------------------
-// LOGIN (Verificação de login e Carregamento de dados)
+// LOGIN
 // ---------------------------------------------------------------
 onAuthStateChanged(auth, (user) => {
     if (!user) return (window.location.href = "login.html");
-    // Se o usuário estiver logado, carrega os dados
-    carregarRestaurante(user.uid);
+    userIdGlobal = user.uid;
+    carregarRestaurante(userIdGlobal);
 });
 
-
-//-----------------------------------
-//Img retaurante 
-//-------------------------------
+// ---------------------------------------------------------------
+// UPLOAD E REMOÇÃO DE IMAGEM DO RESTAURANTE
+// ---------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-    // Certifique-se de que este bloco só é executado após o DOM estar pronto
-    const imageUpload = document.getElementById('image-upload');
-    const fileInput = document.getElementById('file-input');
-    const removeBtn = document.getElementById('remove-image-btn');
-    
-    // 1. Lógica para abrir a seleção de arquivo ao clicar no contêiner .image
-    imageUpload.addEventListener('click', (e) => {
-        // Verifica se o clique NÃO foi no botão de remoção.
-        if (e.target.id !== 'remove-image-btn') {
-            fileInput.click();
+
+    imgRestEl.addEventListener('click', (e) => {
+        if (e.target !== removeImgRestBtn && e.target.tagName !== 'IMG') { 
+            fileInputRest.click();
         }
     });
 
-    // 2. Lógica de Carregamento da Imagem (Input change)
-    fileInput.addEventListener('change', (event) => {
+    fileInputRest.addEventListener('change', async event => {
         const file = event.target.files[0];
+        if (!file) return;
 
-        if (file) {
-            const reader = new FileReader();
+        // Pré-visualização
+        const reader = new FileReader();
+        reader.onload = e => {
+            imgRestEl.querySelector("img")?.remove();
+            if(placeholderIcon) placeholderIcon.style.display = 'none';
 
-            reader.onload = (e) => {
-                // Remove qualquer imagem <img> existente antes de adicionar a nova
-                const existingImage = imageUpload.querySelector('img');
-                if (existingImage) {
-                    existingImage.remove();
-                }
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.width = '120px'; 
+            img.style.borderRadius = '10px';
+            imgRestEl.prepend(img);
 
-                // Cria o elemento <img> e insere a imagem carregada
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                imageUpload.prepend(img); // Adiciona a imagem no início do contêiner
+            removeImgRestBtn.style.display = 'block';
+            imgRestEl.classList.add('has-image');
+        };
+        reader.readAsDataURL(file);
 
-                // Controla a visibilidade:
-                if (removeBtn) removeBtn.style.display = 'flex'; // Adicionado checagem
-                imageUpload.classList.add('has-image'); // Adiciona classe para ocultar o SVG placeholder
-            };
-            
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // 3. Lógica de Remoção da Imagem (Botão de remoção click)
-    if (removeBtn) { // Adicionado checagem
-        removeBtn.addEventListener('click', () => {
-            // Encontra e remove o elemento <img>
-            const img = imageUpload.querySelector('img');
-            if (img) {
-                img.remove();
+        // Upload e Salvamento no Firestore
+        if (restauranteRef) {
+            try {
+                const imageUrl = await uploadToImgBB(file);
+                await updateDoc(restauranteRef, { imageUrl: imageUrl });
+            } catch (error) {
+                alert("Erro ao fazer upload da imagem do restaurante. Tente novamente.");
+                console.error("Erro no upload:", error);
             }
-
-            // Limpa o valor do input file para que o usuário possa carregar a mesma imagem novamente, se quiser.
-            fileInput.value = '';
-
-            // Controla a visibilidade:
-            removeBtn.style.display = 'none'; // Oculta o botão
-            imageUpload.classList.remove('has-image'); // Remove a classe para reexibir o SVG placeholder
-        });
-    }
-});
-
-//------------------------------ 
-//sessaõ destaques
-//----------------------------------
-// -------------------------------
-// LISTAS QUE GUARDAM OS PRODUTOS
-// -------------------------------
-let destaques = [];
-let categorias = [];
-
-
-// -------------------------------
-// GERAR CARDS DE DESTAQUES
-// -------------------------------
-function renderDestaques() {
-    const lista = document.getElementById("listaDestaques");
-    if (!lista) return; // Adicionado checagem para elemento inexistente
-    lista.innerHTML = "";
-
-    destaques.forEach((item, index) => {
-        const card = document.createElement("div");
-        card.classList.add("item-destaque");
-
-        card.innerHTML = `
-            <div class="remover-btn" data-index="${index}">X</div>
-
-            <div class="image-destaque">
-                ${item.img 
-                    ? `<img src="${item.img}" style="width:100%;height:100%;border-radius:8px;">`
-                    : `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ff7b4f" viewBox="0 0 16 16">
-                        <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0z"/>
-                        <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12z"/>
-                       </svg>`
-                }
-            </div>
-
-            <p class="titulo">${item.nome}</p>
-            <p class="preco">R$ ${item.preco}</p>
-        `;
-
-        lista.appendChild(card);
-    });
-}
-
-
-// -------------------------------
-// GERAR CATEGORIAS E PRODUTOS
-// -------------------------------
-function renderCategorias() {
-    const lista = document.getElementById("listaCategorias");
-    if (!lista) return; // Adicionado checagem para elemento inexistente
-    lista.innerHTML = "";
-
-    categorias.forEach((categoria, catIndex) => {
-        const bloco = document.createElement("div");
-        bloco.classList.add("categoria-secao");
-
-        bloco.innerHTML = `
-            <h3 class="nome-categoria">${categoria.nome}</h3>
-            <button class="add-produto" data-cat="${catIndex}">
-                + adicionar produto
-            </button>
-
-            <div class="lista-produtos"></div>
-        `;
-
-        const listaProdutos = bloco.querySelector(".lista-produtos");
-
-        categoria.produtos.forEach((prod, prodIndex) => {
-            const item = document.createElement("div");
-            item.classList.add("produto-item");
-            item.style.position = "relative";
-
-            item.innerHTML = `
-                <div class="remover-produto-btn" data-cat="${catIndex}" data-prod="${prodIndex}">X</div>
-
-                <div class="produto-imagem">
-                    <img src="${prod.img}" style="width:100%;border-radius:8px;">
-                </div>
-
-                <div class="produto-detalhes">
-                    <h4 class="produto-nome">${prod.nome}</h4>
-                    <p class="produto-descricao">${prod.descricao}</p>
-                    <p class="produto-preco">R$ ${prod.preco}</p>
-                </div>
-            `;
-
-            listaProdutos.appendChild(item);
-        });
-
-        lista.appendChild(bloco);
-    });
-    
-    // Se você usa o ativarRemoverProdutos, chame-o aqui após a renderização
-    // ativarRemoverProdutos(); 
-}
-// ===============================
-// ADICIONAR DESTAQUE
-// ===============================
-
-// Corrigido: Adicionado optional chaining (?) para evitar erro se o elemento não existir
-document.getElementById("adicionar-destaque-btn")?.addEventListener("click", () => {
-
-    const img = prompt("URL da imagem (ou deixe vazio):");
-    const nome = prompt("Nome do item:");
-    const preco = prompt("Preço:");
-
-    destaques.push({ img, nome, preco });
-
-    renderDestaques();
-});
-
-
-// ===============================
-// REMOVER DESTAQUE
-// ===============================
-
-document.addEventListener("click", e => {
-
-    if (e.target.classList.contains("remover-btn")) {
-
-        const index = e.target.dataset.index;  // Dataset vem do render
-
-        if (index !== undefined) {
-            destaques.splice(index, 1);
-            renderDestaques();
         }
-    }
-});
-
-
-// ===============================
-// ADICIONAR CATEGORIA
-// ===============================
-
-// Corrigido: Mantido o optional chaining (?)
-document.getElementById("addCategoriaBtn")?.addEventListener("click", () => {
-
-    const nome = prompt("Nome da categoria:");
-
-    if (!nome) return;
-
-    categorias.push({
-        nome,
-        produtos: []
     });
 
-    renderCategorias();
+    removeImgRestBtn.addEventListener('click', async (e) => {
+        e.stopPropagation(); 
+        
+        // Remove visualmente
+        imgRestEl.querySelector("img")?.remove();
+        fileInputRest.value = "";
+        removeImgRestBtn.style.display = 'none';
+        imgRestEl.classList.remove('has-image');
+        if(placeholderIcon) placeholderIcon.style.display = 'block';
+
+        // Remove do Firestore
+        if (restauranteRef) {
+            try {
+                await updateDoc(restauranteRef, { imageUrl: "" });
+            } catch (error) {
+                alert("Erro ao remover a URL da imagem do restaurante.");
+                console.error("Erro ao remover URL:", error);
+            }
+        }
+    });
 });
 
 
-// ===============================
-// ADICIONAR PRODUTO A UMA CATEGORIA
-// ===============================
+// ---------------------------------------------------------------
+// SISTEMA DO MODAL E PRODUTOS (COM VALIDAÇÃO DE IMAGEM)
+// ---------------------------------------------------------------
 
-document.addEventListener("click", e => {
+formProduto.addEventListener('input', checkFormValidity);
+areaUpload.addEventListener("click", () => { inputImagem.click(); });
 
-    if (e.target.classList.contains("add-produto")) {
+inputImagem.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
 
-        const catIndex = e.target.dataset.cat;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        previewImagem.src = e.target.result;
+        previewImagem.style.display = "block";
+        textoUpload.style.display = "none";
+        removerImagemBtn.style.display = "inline-block";
+        checkFormValidity();
+    };
+    reader.readAsDataURL(file);
+});
 
-        if (catIndex === undefined) return;
+removerImagemBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    limparPreviewImagem();
+    checkFormValidity();
+});
 
-        const img = prompt("URL da imagem:");
-        const nome = prompt("Nome do produto:");
-        const descricao = prompt("Descrição:");
-        const preco = prompt("Preço:");
+// --- ABRIR MODAL (Pegando Categoria) ---
+document.querySelectorAll(".open-modal").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const categoriaHeader = btn.closest(".categoria-secao")?.querySelector(".nome-categoria");
+        
+        if (!categoriaHeader) {
+            alert("Erro: Não foi possível identificar a categoria. Verifique a estrutura HTML.");
+            return;
+        }
 
-        categorias[catIndex].produtos.push({
-            img, nome, descricao, preco
-        });
+        // Armazena o nome da categoria (ex: "salgados" ou "doce")
+        categoriaAtual = categoriaHeader.textContent.trim().toLowerCase(); 
 
-        renderCategorias();
+        formProduto.reset();
+        limparPreviewImagem();
+        salvarBtn.disabled = true;
+        salvarBtn.textContent = "Salvar Produto";
+        modal.showModal();
+    });
+});
+
+// --- FECHAR MODAL ---
+[btnSair, btnFechar].forEach(btn => {
+    btn.addEventListener("click", () => {
+        modal.close();
+        formProduto.reset();
+        limparPreviewImagem();
+        categoriaAtual = null; // Limpa a categoria
+    });
+});
+
+
+// ---------------------------------------------------------------
+// SALVAR PRODUTO NO FIRESTORE (CORRIGIDO PARA O PATH ESPECIFICADO)
+// ---------------------------------------------------------------
+salvarBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    if (salvarBtn.disabled) return;
+
+    salvarBtn.disabled = true;
+    salvarBtn.textContent = "Criando produto...";
+
+    const file = inputImagem.files[0];
+    let imageUrl = "";
+
+    try {
+        if (!userIdGlobal || !restauranteId) throw new Error("Dados do usuário ou restaurante ausentes.");
+        if (!categoriaAtual) throw new Error("Categoria do produto não definida. Tente reabrir o modal.");
+
+        // 1. Upload da Imagem para o ImgBB (obrigatório)
+        if (file) {
+            imageUrl = await uploadToImgBB(file);
+        } else {
+             // Redundância de segurança, já validado pelo checkFormValidity
+             throw new Error("A imagem do produto é obrigatória."); 
+        }
+        
+        // 2. Coleta dos dados do formulário
+        const produtoData = {
+            imageUrl: imageUrl, 
+            nome: inputNome.value,
+            preco: parseFloat(inputPreco.value), 
+            descricao: inputDescricao.value,
+            criadoEm: serverTimestamp(),
+            categoria: categoriaAtual
+        };
+
+        // 3. Salvamento no Firestore DENTRO DO CAMINHO ANINHADO CORRETO
+        // Caminho de destino: operadores/{uid}/restaurantes/{id}/categorias/{nomeCat}/produtos
+        const produtosRef = collection(db, 
+            "operadores", userIdGlobal, 
+            "restaurantes", restauranteId, 
+            "categorias", categoriaAtual, // {nomeCategoria}
+            "produtos" // Nome da coleção de produtos
+        );
+        
+        await addDoc(produtosRef, produtoData);
+
+        alert("Produto criado com sucesso! ✅");
+
+        modal.close();
+        formProduto.reset();
+        limparPreviewImagem();
+        
+    } catch (error) {
+        alert(`Erro ao criar produto: ${error.message}`);
+        console.error("Erro ao salvar produto:", error);
+    } finally {
+        salvarBtn.disabled = false;
+        salvarBtn.textContent = "Salvar Produto";
+        categoriaAtual = null; 
     }
 });
-
-
-// ===============================
-// REMOVER PRODUTO 
-//------------------
-// função que adiciona o evento de remover para todos os botões existentes
-function ativarRemoverProdutos() {
-  document.querySelectorAll('.remover-produto').forEach(btn => {
-    // evita múltiplos listeners duplicados
-    btn.replaceWith(btn.cloneNode(true));
-  });
-
-  document.querySelectorAll('.remover-produto').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const wrapper = btn.closest('.produto-wrapper');
-      if (!wrapper) return;
-      wrapper.remove();
-    });
-  });
-}
-
-// inicializa ao carregar
-// Nota: Em módulos (script type="module"), o DOM já está pronto quando o script é executado.
-// A função ativaRemoverProdutos só é realmente necessária se você adicionar produtos/categorias
-// *depois* da renderização inicial.
-document.addEventListener('DOMContentLoaded', ativarRemoverProdutos);
