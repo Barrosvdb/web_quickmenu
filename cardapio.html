@@ -78,8 +78,6 @@
 
                     <div class="categoria-header">
                         <h3 class="nome-categoria">salgados</h3>
-
-                        <!-- Novo botão remover categoria -->
                         <div class="remover-btn btn-remove-categoria">X</div>
                     </div>
 
@@ -104,8 +102,36 @@
 
                 </div>
             </div>
-
         </section>
+         <dialog id="modalcat-categoria">
+        <form id="form-produto">
+            <div class="modal-header">
+                <h1 class="modal-title">Criar categoria</h1>
+
+                <button class="close-modal" type="button">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="input-group">
+                    <label for="nome"></label>
+                    <input type="text" id="nome" placeholder="Nome da categoria">
+                </div>
+            </div>
+
+            <div class="modal-footer btn-group">
+                <button type="button" class="btn btn-sair" id="btn-sair">
+                    <i class="fa-solid fa-door-open"></i> Sair
+                </button>
+
+                <button type="submit" class="btn btn-salvar" id="btn-salvar" disabled>
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                </button>
+            </div>
+        </form>
+    </dialog>
     </main>
 
     <script src="zoom.js"></script>

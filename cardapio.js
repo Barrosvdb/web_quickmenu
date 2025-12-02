@@ -356,6 +356,87 @@ document.addEventListener("click", e => {
         renderCategorias();
     }
 });
+const modalCategoria = document.getElementById('modalcat-categoria');
+const btnAddCategoria = document.querySelector('.btn-add-categoria');
+const closeModalCategoria = document.querySelector('.close-modal');
+const btnSairModal = document.getElementById('btn-sair');
+const formCategoria = document.getElementById('form-produto');
+const nomeCategoriaInput = document.getElementById('nome');
+const btnSalvarCategoria = document.getElementById('btn-salvar');
+
+// Verificar se elementos existem
+console.log("Modal:", modalCategoria ? "OK" : "NÃO ENCONTRADO");
+console.log("Botão adicionar:", btnAddCategoria ? "OK" : "NÃO ENCONTRADO");
+
+// Abrir modal ao clicar no botão "adicionar categoria"
+if (btnAddCategoria && modalCategoria) {
+    btnAddCategoria.addEventListener('click', () => {
+        console.log("Abrindo modal de categoria");
+        modalCategoria.showModal();
+    });
+} else {
+    console.error("Elementos do modal não encontrados!");
+}
+
+// Fechar modal no X
+if (closeModalCategoria && modalCategoria) {
+    closeModalCategoria.addEventListener('click', () => {
+        modalCategoria.close();
+    });
+}
+
+// Fechar modal no botão "Sair"
+if (btnSairModal && modalCategoria) {
+    btnSairModal.addEventListener('click', () => {
+        modalCategoria.close();
+    });
+}
+
+// Validar input do nome da categoria
+if (nomeCategoriaInput && btnSalvarCategoria) {
+    nomeCategoriaInput.addEventListener('input', () => {
+        btnSalvarCategoria.disabled = nomeCategoriaInput.value.trim().length < 3;
+    });
+}
+
+// Submeter formulário da categoria
+if (formCategoria && modalCategoria) {
+    formCategoria.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nomeCategoria = nomeCategoriaInput.value.trim();
+        
+        if (nomeCategoria.length < 3) {
+            alert("O nome da categoria deve ter pelo menos 3 caracteres!");
+            return;
+        }
+        
+        // Adicionar à lista de categorias
+        categorias.push({
+            nome: nomeCategoria,
+            produtos: []
+        });
+        
+        // Renderizar novamente as categorias
+        renderCategorias();
+        
+        // Fechar modal e limpar formulário
+        modalCategoria.close();
+        formCategoria.reset();
+        btnSalvarCategoria.disabled = true;
+        
+        alert(`Categoria "${nomeCategoria}" criada com sucesso!`);
+    });
+}
+
+// Fechar modal ao clicar fora (no backdrop)
+if (modalCategoria) {
+    modalCategoria.addEventListener('click', (e) => {
+        if (e.target === modalCategoria) {
+            modalCategoria.close();
+        }
+    });
+}
 
 
 // ===============================

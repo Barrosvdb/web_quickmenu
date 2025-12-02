@@ -269,3 +269,164 @@ object-fit: cover;
 .produto-detalhes {
 flex-grow: 1;
 }
+dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+/* Fundo escurecido atrás do modal */
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #ff7b4f;
+    border-bottom: 3px solid #F5D965;
+    border-radius: 12px 12px 0 0;
+}
+
+/* Título do modal */
+.modal-title {
+    margin: 0;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* Botão X para fechar modal */
+.close-modal {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+.close-modal:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Corpo do modal */
+.modal-body {
+    padding: 30px;
+    background-color: #fff;
+}
+
+/* Grupo de input */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #fff;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #ff7b4f;
+    outline: none;
+}
+
+/* Rodapé do modal com botões */
+.btn-group {
+    display: flex;
+    gap: 15px;
+    padding: 20px 30px;
+    background-color: #f9f9f9;
+    border-radius: 0 0 12px 12px;
+    justify-content: flex-end;
+}
+
+/* Botões do modal */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px;
+}
+
+.btn i {
+    font-size: 14px;
+}
+
+.btn-sair {
+    background-color: #999;
+    color: white;
+}
+
+.btn-sair:hover {
+    background-color: #777;
+}
+
+.btn-salvar {
+    background-color: #ff7b4f;
+    color: white;
+}
+
+.btn-salvar:hover:not(:disabled) {
+    background-color: #e56a3f;
+}
+
+.btn-salvar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Responsividade do modal */
+@media (max-width: 576px) {
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    dialog {
+        width: 95%;
+    }
+}
