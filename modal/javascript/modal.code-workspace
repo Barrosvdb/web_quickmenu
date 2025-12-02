@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"name": "modal",
+			"path": "../../../../../Desktop/modal"
+		},
+		{
+			"name": "web_quickmenu",
+			"path": "../.."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "modal"
+	}
+}
