@@ -120,3 +120,53 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // ... O restante do seu código (Img restaurante, destaques, categorias) ...
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Seleção dos elementos para atualização
+    const productName = document.getElementById('product-name');
+    const productPrice = document.getElementById('product-price');
+    const productQuantity = document.getElementById('product-quantity');
+    const confirmButton = document.getElementById('confirm-order-btn');
+    const clientNameInput = document.getElementById('client-name-input');
+
+    // 2. Função para atualizar os dados do produto (exemplo)
+    function updateProductData(name, price, quantity) {
+        productName.textContent = name;
+        // Formata o preço para o padrão brasileiro
+        productPrice.textContent = price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        productQuantity.textContent = quantity;
+    }
+
+    // Exemplo de uso: Carregar dados iniciais
+    updateProductData("Pizza Marguerita", 45.50, 3);
+
+
+    // 3. Adiciona funcionalidade ao botão
+    confirmButton.addEventListener('click', () => {
+        const name = productName.textContent;
+        const client = clientNameInput.value.trim();
+        const price = productPrice.textContent;
+        const qty = productQuantity.textContent;
+
+        if (client === "") {
+            alert("Por favor, digite o nome do cliente para confirmar o pedido.");
+            return;
+        }
+
+        const message = `
+=========================
+    PEDIDO CONFIRMADO
+=========================
+Produto: ${name}
+Preço Unitário: ${price}
+Quantidade: ${qty}
+-------------------------
+Nome do Cliente: ${client}
+-------------------------
+`;
+        console.log(message);
+        alert(`Pedido para ${client} confirmado! Veja os detalhes no console.`);
+        
+        // Opcional: Limpa o input após a confirmação
+        clientNameInput.value = ""; 
+    });
+});
