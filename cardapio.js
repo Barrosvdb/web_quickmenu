@@ -71,21 +71,38 @@ let restauranteRef = null;
 let userIdGlobal = null; 
 let categoriaAtual = null; // Armazena o nome da categoria selecionada
 
-// Elementos do Modal (Produto)
-const modal = document.getElementById("modal-categoria"); // Assumindo que este é o modal de produto
-const btnAbrir = document.querySelector(".open-modal");
-const btnFechar = document.getElementById("btn-fechar-modal"); 
-const btnSair = document.getElementById("btn-sair");
-const formProduto = document.getElementById("form-produto");
-const salvarBtn = document.getElementById("btn-salvar");
-const inputNome = document.getElementById("nome");
-const inputPreco = document.getElementById("preco");
-const inputDescricao = document.getElementById("descricao");
-const areaUpload = document.getElementById("area-upload");
-const inputImagem = document.getElementById("imagem");
-const previewImagem = document.getElementById("preview-imagem");
-const textoUpload = document.getElementById("texto-upload");
-const removerImagemBtn = document.getElementById("remover-imagem");
+// Elementos do Modal (Produto) - Declarados como null inicialmente
+let modal = null;
+let btnFechar = null;
+let btnSair = null;
+let formProduto = null;
+let salvarBtn = null;
+let inputNome = null;
+let inputPreco = null;
+let inputDescricao = null;
+let areaUpload = null;
+let inputImagem = null;
+let previewImagem = null;
+let textoUpload = null;
+let removerImagemBtn = null;
+
+// Função para inicializar os elementos do modal
+function inicializarElementosModal() {
+    modal = document.getElementById("modal-categoria");
+    btnFechar = document.getElementById("btn-fechar-modal"); 
+    btnSair = document.getElementById("btn-sair");
+    formProduto = document.getElementById("form-produto");
+    salvarBtn = document.getElementById("btn-salvar");
+    inputNome = document.getElementById("nome");
+    inputPreco = document.getElementById("preco");
+    inputDescricao = document.getElementById("descricao");
+    areaUpload = document.getElementById("area-upload");
+    inputImagem = document.getElementById("imagem");
+    previewImagem = document.getElementById("preview-imagem");
+    textoUpload = document.getElementById("texto-upload");
+    removerImagemBtn = document.getElementById("remover-imagem-btn");
+}
+
 
 
 // ---------------------------------------------------------------
@@ -220,11 +237,11 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // ---------------------------------------------------------------
-// UPLOAD E REMOÇÃO DE IMAGEM DO RESTAURANTE
+// UPLOAD E SUBSTITUIÇÃO DE IMAGEM DO RESTAURANTE
 // ---------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
-
-    imgRestEl.addEventListener('click', (e) => {
+    // Inicializar elementos do modal quando o DOM está pronto
+    inicializarElementosModal();
         if (e.target !== removeImgRestBtn && e.target.tagName !== 'IMG') { 
             fileInputRest.click();
         }
@@ -284,8 +301,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
-
 // ---------------------------------------------------------------
 // SISTEMA DE MODAL E PRODUTOS (COM VALIDAÇÃO DE IMAGEM)
 // ---------------------------------------------------------------
@@ -342,16 +357,23 @@ document.querySelectorAll(".open-modal").forEach(btn => {
 });
 
 // --- FECHAR MODAL ---
-[btnSair, btnFechar].forEach(btn => {
-    btn.addEventListener("click", () => {
-        modal.close();
-        formProduto.reset();
-        limparPreviewImagem();
-        categoriaAtual = null; // Limpa a categoria
-    });
-});
+if (btnSair) {
+    btnSair.addEventListener("click", () => {
+        modal.close();
+        formProduto.reset();
+        limparPreviewImagem();
+        categoriaAtual = null;
+    });
+}
 
-
+if (btnFechar) {
+    btnFechar.addEventListener("click", () => {
+        modal.close();
+        formProduto.reset();
+        limparPreviewImagem();
+        categoriaAtual = null;
+    });
+}
 // ---------------------------------------------------------------
 // SALVAR PRODUTO NO FIRESTORE (CORRIGIDO PARA O PATH ESPECIFICADO)
 // ---------------------------------------------------------------
