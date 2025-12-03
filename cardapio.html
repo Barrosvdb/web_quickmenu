@@ -25,7 +25,8 @@
         <div class="restaurante-header">
             <div class="image" id="image-upload">
                 <input type="file" id="file-input" accept="image/*" hidden>
-                    <svg id="placeholder-icon" xmlns="http://www.w3.org/2000/svg" width="500" height="100" fill="#ff7b4f"
+                <button type="button" id="remove-image-btn" style="display: none; position: absolute; top: 10px; right: 10px;">X</button>
+                <svg id="placeholder-icon" xmlns="http://www.w3.org/2000/svg" width="500" height="100" fill="#ff7b4f"
                     viewBox="0 0 16 16">
                     <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
                     <path
@@ -108,12 +109,13 @@
 
     </main>
 
-             <dialog id="modalcat-categoria">
-        <form id="form-produto">
+    <!-- Modal de Categoria -->
+    <dialog id="modalcat-categoria">
+        <form id="form-categoria">
             <div class="modal-header">
                 <h1 class="modal-title">Criar categoria</h1>
 
-                <button class="close-modal" type="button">
+                <button class="close-modal" type="button" id="btn-fechar-categoria">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -121,8 +123,57 @@
             <div class="modal-body">
 
                 <div class="input-group">
-                    <label for="nome"></label>
-                    <input type="text" id="nome" placeholder="Nome da categoria">
+                    <label for="nome-categoria">Nome da Categoria</label>
+                    <input type="text" id="nome-categoria" placeholder="Nome da categoria">
+                </div>
+            </div>
+
+            <div class="modal-footer btn-group">
+                <button type="button" class="btn btn-sair-categoria" id="btn-sair-categoria">
+                    <i class="fa-solid fa-door-open"></i> Sair
+                </button>
+
+                <button type="submit" class="btn btn-salvar-categoria" id="btn-salvar-categoria" disabled>
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Modal de Produto -->
+    <dialog id="modal-categoria">
+        <form id="form-produto">
+            <div class="modal-header">
+                <h1 class="modal-title">Criar Produto</h1>
+                <button class="close-modal" type="button" id="btn-fechar-modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="input-group">
+                    <label for="nome">Nome do Produto</label>
+                    <input type="text" id="nome" placeholder="Nome do produto" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="preco">Preço</label>
+                    <input type="number" id="preco" placeholder="R$ 0,00" step="0.01" min="0" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" placeholder="Descrição do produto"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="imagem">Imagem do Produto</label>
+                    <div id="area-upload" class="area-upload">
+                        <input type="file" id="imagem" accept="image/*" hidden>
+                        <span id="texto-upload">Clique para selecionar uma imagem</span>
+                        <img id="preview-imagem" style="display: none; max-width: 200px; margin-top: 10px;">
+                        <button type="button" id="remover-imagem-btn" style="display: none;">Remover Imagem</button>
+                    </div>
                 </div>
             </div>
 
@@ -131,8 +182,8 @@
                     <i class="fa-solid fa-door-open"></i> Sair
                 </button>
 
-                <button type="submit" class="btn btn-salvar" id="btn-salvar" disabled>
-                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                <button type="button" class="btn btn-salvar" id="btn-salvar" disabled>
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar Produto
                 </button>
             </div>
         </form>
