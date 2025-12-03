@@ -104,34 +104,36 @@
                 </div>
 
             </div>
-
         </section>
 
     </main>
 
-    <dialog id="modal-categoria">
+             <dialog id="modalcat-categoria">
         <form id="form-produto">
-            <button type="button" id="btn-fechar-modal" class="close-modal">X</button>
+            <div class="modal-header">
+                <h1 class="modal-title">Criar categoria</h1>
 
-            <div id="area-upload">
-                <input type="file" id="imagem" accept="image/*" hidden>
-                <img id="preview-imagem" style="display: none; max-width: 100%; max-height: 200px;">
-                <p id="texto-upload">Clique para adicionar imagem</p>
-                <button type="button" id="remover-imagem" style="display: none;">Remover Imagem</button>
+                <button class="close-modal" type="button">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
 
-            <label for="nome">Nome do Produto:</label>
-            <input type="text" id="nome" required>
+            <div class="modal-body">
 
-            <label for="preco">Preço (R$):</label>
-            <input type="number" id="preco" step="0.01" min="0.01" required>
+                <div class="input-group">
+                    <label for="nome"></label>
+                    <input type="text" id="nome" placeholder="Nome da categoria">
+                </div>
+            </div>
 
-            <label for="descricao">Descrição:</label>
-            <textarea id="descricao"></textarea>
+            <div class="modal-footer btn-group">
+                <button type="button" class="btn btn-sair" id="btn-sair">
+                    <i class="fa-solid fa-door-open"></i> Sair
+                </button>
 
-            <div class="modal-footer">
-                <button type="button" id="btn-sair" class="btn">Sair</button>
-                <button type="submit" id="btn-salvar" class="btn" disabled>Salvar Produto</button>
+                <button type="submit" class="btn btn-salvar" id="btn-salvar" disabled>
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                </button>
             </div>
         </form>
     </dialog>
