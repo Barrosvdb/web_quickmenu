@@ -85,7 +85,7 @@ const areaUpload = document.getElementById("area-upload");
 const inputImagem = document.getElementById("imagem");
 const previewImagem = document.getElementById("preview-imagem");
 const textoUpload = document.getElementById("texto-upload");
-const removerImagemBtn = document.getElementById("remover-imagem");
+
 
 
 // ---------------------------------------------------------------
@@ -162,7 +162,6 @@ function carregarRestaurante(userId) {
             img.style.width = '120px'; 
             img.style.borderRadius = '10px';
             imgRestEl.prepend(img);
-            removeImgRestBtn.style.display = 'block';
             if(placeholderIcon) placeholderIcon.style.display = 'none';
             imgRestEl.classList.add('has-image');
         } else {
@@ -170,7 +169,6 @@ function carregarRestaurante(userId) {
                 if (!imgRestEl.contains(placeholderIcon)) imgRestEl.prepend(placeholderIcon);
                 placeholderIcon.style.display = 'block';
             }
-            removeImgRestBtn.style.display = 'none';
             imgRestEl.classList.remove('has-image');
         }
     });
@@ -199,16 +197,17 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // ---------------------------------------------------------------
-// UPLOAD E REMOÇÃO DE IMAGEM DO RESTAURANTE
+// UPLOAD E SUBSTITUIÇÃO DE IMAGEM DO RESTAURANTE
 // ---------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
 
-    imgRestEl.addEventListener('click', (e) => {
-        if (e.target !== removeImgRestBtn && e.target.tagName !== 'IMG') { 
-            fileInputRest.click();
-        }
+    // 1. CLIQUE NA ÁREA DA LOGO PARA ABRIR O SELETOR DE ARQUIVOS
+    imgRestEl.addEventListener('click', () => {
+        // Qualquer clique na div da imagem (#image-upload) aciona o input de arquivo.
+        fileInputRest.click();
     });
 
+    // 2. LÓGICA DE UPLOAD E SUBSTITUIÇÃO
     fileInputRest.addEventListener('change', async event => {
         const file = event.target.files[0];
         if (!file) return;
@@ -216,25 +215,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Pré-visualização
         const reader = new FileReader();
         reader.onload = e => {
-            imgRestEl.querySelector("img")?.remove();
+            imgRestEl.querySelector("img")?.remove(); // Remove a imagem antiga
             if(placeholderIcon) placeholderIcon.style.display = 'none';
 
             const img = document.createElement('img');
             img.src = e.target.result;
             img.style.width = '120px'; 
             img.style.borderRadius = '10px';
-            imgRestEl.prepend(img);
-
-            removeImgRestBtn.style.display = 'block';
+            imgRestEl.prepend(img); // Adiciona a nova imagem
+            
             imgRestEl.classList.add('has-image');
         };
         reader.readAsDataURL(file);
 
-        // Upload e Salvamento no Firestore
+        // Upload e Salvamento no Firestore (SOBRESCREVE o link antigo)
         if (restauranteRef) {
             try {
                 const imageUrl = await uploadToImgBB(file);
-                await updateDoc(restauranteRef, { imageUrl: imageUrl });
+                // O updateDoc substitui o valor de 'imageUrl', garantindo a troca e não a remoção.
+                await updateDoc(restauranteRef, { imageUrl: imageUrl }); 
+                alert("Logo do restaurante trocada com sucesso!");
             } catch (error) {
                 alert("Erro ao fazer upload da imagem do restaurante. Tente novamente.");
                 console.error("Erro no upload:", error);
@@ -242,29 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    removeImgRestBtn.addEventListener('click', async (e) => {
-        e.stopPropagation(); 
-        
-        // Remove visualmente
-        imgRestEl.querySelector("img")?.remove();
-        fileInputRest.value = "";
-        removeImgRestBtn.style.display = 'none';
-        imgRestEl.classList.remove('has-image');
-        if(placeholderIcon) placeholderIcon.style.display = 'block';
-
-        // Remove do Firestore
-        if (restauranteRef) {
-            try {
-                await updateDoc(restauranteRef, { imageUrl: "" });
-            } catch (error) {
-                alert("Erro ao remover a URL da imagem do restaurante.");
-                console.error("Erro ao remover URL:", error);
-            }
-        }
-    });
+    // Remova o bloco de código que tratava de 'removeImgRestBtn.addEventListener('click', ...)'
 });
-
-
 // ---------------------------------------------------------------
 // SISTEMA DO MODAL E PRODUTOS (COM VALIDAÇÃO DE IMAGEM)
 // ---------------------------------------------------------------
