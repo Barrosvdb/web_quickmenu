@@ -46,7 +46,6 @@ body {
     font-size: 20px;
 }
 
-/* --- CORREÇÃO DOS LINKS QUE FICAVAM AZUIS --- */
 .sidebar ul li a {
     color: inherit;
     text-decoration: none;
@@ -62,7 +61,6 @@ body {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-/* ===== CONTEÚDO PRINCIPAL ===== */
 .content {
     margin-left: 220px;
     padding: 30px;

@@ -1,5 +1,4 @@
-/* stylepedidos.css */
-/* RESET – remove margens/paddings padrão e define fonte base */
+
 * {
     margin: 0;
     padding: 0;
@@ -58,19 +57,19 @@ body {
 }
 
 .sidebar ul li.active {
-    background-color: rgba(255, 255, 255, 0.2); /* Fundo sutilmente mais claro */
-    font-weight: 600; /* Texto um pouco mais grosso */
-    border-left: 4px solid #fff; /* Uma borda lateral para indicar seleção */
+    background-color: rgba(255, 255, 255, 0.2); 
+    font-weight: 600; 
+    border-left: 4px solid #fff; 
 }
 
-/* Adicione isso logo após as regras de ".sidebar ul li" */
+
 
 .sidebar ul li a {
-    display: flex;         /* Torna o link um container flexível */
-    align-items: center;   /* Alinha ícone e texto verticalmente no centro */
-    width: 100%;           /* Garante que o link ocupe todo o espaço do botão */
-    height: 100%;          /* Garante a altura total */
-    color: inherit;        /* Garante que a cor seja a mesma do item sem link */
+    display: flex;         
+    align-items: center;   
+    width: 100%;           
+    height: 100%;          
+    color: inherit;        
 }
 
 /* ===== CONTEÚDO PRINCIPAL ===== */
@@ -149,7 +148,7 @@ body {
     padding: 10px;
 }
 
-/* Mensagem quando não há pedidos */
+
 .pedidos-container:empty::before {
     content: "Nenhum pedido encontrado";
     grid-column: 1 / -1;
@@ -186,7 +185,7 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-/* Status Encerrado - fundo cinza */
+
 .pedido-card.encerrado {
     background-color: #f5f5f5;
     border-left-color: #999;
@@ -341,7 +340,7 @@ body {
 
 .item-info {
     flex: 1;
-    min-width: 0; /* Permite que o texto quebre */
+    min-width: 0; 
 }
 
 .item-nome {
@@ -629,12 +628,11 @@ body {
 }
 
 /* ===== ESTILOS PARA ESTADOS ESPECÍFICOS ===== */
-/* Hover para itens clicáveis */
 .pedido-card:not(.encerrado):hover {
     cursor: pointer;
 }
 
-/* Efeito de pulse para pedidos ativos recentes */
+
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(255, 123, 79, 0.4);
@@ -651,7 +649,7 @@ body {
     animation: pulse 2s infinite;
 }
 
-/* Estilo para pedidos com urgência (mais de 15 minutos) */
+
 .pedido-card.urgente {
     border-left: 5px solid #f44336;
 }

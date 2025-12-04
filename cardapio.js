@@ -257,10 +257,6 @@ async function obterProdutosDaCategoria(categoriaId) {
         for (const docSnap of querySnapshot.docs) {
             const refData = docSnap.data();
             console.log('produtosCategoria doc:', docSnap.id, 'data:', refData);
-            // Possíveis formatos:
-            // A) { produtoId: 'abc' }
-            // B) { nome, preco, ... } (produto embutido)
-            // C) ID do doc é o produto (docSnap.id)
             const produtoId = refData.produtoId || refData.produtoID || null;
 
             if (produtoId) {
@@ -274,7 +270,6 @@ async function obterProdutosDaCategoria(categoriaId) {
                         produtos.push(produto);
                         cacheProdutos.set(produtoId, produto);
                     } else {
-                        // fallback: se o doc de produtosCategoria tiver os dados do produto
                         if (refData.nome) {
                             const produtoFromRef = {
                                 id: docSnap.id,
@@ -335,12 +330,9 @@ async function carregarRestaurante() {
         console.log('userId no início de carregarRestaurante =', userId);
 
         const params = new URLSearchParams(window.location.search);
-        // Para DEV: você pode usar fallback, mas não recomendo em produção.
-        // restauranteId = params.get('id') || RESTAURANTE_DEFAULT;
         restauranteId = params.get('id');
 
         if (!restauranteId || !userId) {
-            // Se estiver em DEV e quiser evitar redirect, descomente as linhas de fallback no topo.
             console.warn('restauranteId ou userId falta — atual: ', { restauranteId, userId });
             window.location.href = 'home.html';
             return;
@@ -681,7 +673,6 @@ formProduto.addEventListener('submit', async (e) => {
             imageUrl = await uploadToImgBB(inputImagemProduto.files[0]);
         }
         
-        // --- 1. Criar o produto na coleção MESTRE de produtos ---
         const produtosRef = collection(db, 'operadores', userId, 'restaurantes', restauranteId, 'produtos');
         
         const novoProdutoRef = await addDoc(produtosRef, {
@@ -692,9 +683,6 @@ formProduto.addEventListener('submit', async (e) => {
             criadaEm: serverTimestamp()
         });
         
-        // --- 2. Criar o vínculo na categoria (Usando o ID do produto) ---
-        
-        // Referência da coleção onde vai ficar o vínculo
         const produtosCategoriaRef = collection(
             db, 
             'operadores', userId, 
@@ -703,17 +691,13 @@ formProduto.addEventListener('submit', async (e) => {
             'produtosCategoria'
         );
         
-        // AQUI ESTÁ A MÁGICA:
-        // Criamos uma referência de Documento forçando o ID a ser igual ao ID do produto criado acima (novoProdutoRef.id)
         const docRef = doc(produtosCategoriaRef, novoProdutoRef.id);
 
-        // Usamos setDoc para escrever nesse local exato
+
         await setDoc(docRef, {
             criadaEm: serverTimestamp()
-             // Não precisa gravar produtoId como campo, pois o ID do documento JÁ É o produtoId
         });
         
-        // --- 3. Atualizar cache local e UI ---
         const novoProduto = {
             id: novoProdutoRef.id,
             nome: inputNomeProduto.value.trim(),
@@ -729,7 +713,7 @@ formProduto.addEventListener('submit', async (e) => {
         alert('Produto criado com sucesso!');
         
     } catch (error) {
-        console.error('Erro detalhado:', error); // Isso ajuda a ver o erro real no console (F12)
+        console.error('Erro detalhado:', error); 
         alert('Erro ao criar produto: ' + error.message);
     } finally {
         btnSalvarProduto.disabled = false;
@@ -741,10 +725,8 @@ formProduto.addEventListener('submit', async (e) => {
 // DELEGATION DE EVENTOS PARA EDIÇÃO/EXCLUSÃO
 // ---------------------------------------------------------------
 categoriasContainer.addEventListener('click', async (e) => {
-    // Editar categoria
     if (e.target.closest('.btn-editar-categoria')) {
         const categoriaId = e.target.closest('.btn-editar-categoria').dataset.id;
-        // Implementar edição de categoria
         alert('Funcionalidade de edição de categoria em desenvolvimento');
     }
     
@@ -754,11 +736,9 @@ categoriasContainer.addEventListener('click', async (e) => {
         
         if (confirm('Tem certeza que deseja excluir esta categoria? Esta ação removerá apenas a categoria, os produtos permanecerão disponíveis.')) {
             try {
-                // 1. Excluir a categoria
                 const categoriaRef = doc(db, 'operadores', userId, 'restaurantes', restauranteId, 'categorias', categoriaId);
                 await deleteDoc(categoriaRef);
                 
-                // 2. Excluir todos os documentos da coleção produtosCategoria desta categoria
                 const produtosCategoriaRef = collection(categoriaRef, 'produtosCategoria');
                 const produtosCategoriaSnapshot = await getDocs(produtosCategoriaRef);
                 
@@ -793,7 +773,6 @@ categoriasContainer.addEventListener('click', async (e) => {
         
         if (confirm('Deseja remover este produto desta categoria?')) {
             try {
-                // 1. Encontrar a referência na coleção produtosCategoria
                 const produtosCategoriaRef = collection(
                     db, 
                     'operadores', userId, 
@@ -847,7 +826,6 @@ logoutBtn.addEventListener('click', async () => {
 // ---------------------------------------------------------------
 // VERIFICAÇÃO DE AUTENTICAÇÃO
 // ---------------------------------------------------------------
-// Substitua o bloco onAuthStateChanged original por este (para debug/dev)
 onAuthStateChanged(auth, (user) => {
     console.log('onAuthStateChanged -> user:', user);
     if (user) {
@@ -856,18 +834,11 @@ onAuthStateChanged(auth, (user) => {
         carregarRestaurante();
     } else {
         console.warn('Nenhum usuário autenticado. ativando fallback DEV (apenas para teste).');
-        // Fallback DEV — FORÇAR IDs (remova em produção)
         userId = OPERADOR_DEFAULT;
-        // restauranteId será obtido dentro de carregarRestaurante() a partir da query string,
-        // mas se quiser forçar também:
-        // restauranteId = RESTAURANTE_DEFAULT;
         carregarRestaurante();
-        // NÃO redirecionar para login durante debug
-        // window.location.href = 'login.html';
     }
 });
 
-// Adicionar parâmetros de ID aos links do sidebar
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');

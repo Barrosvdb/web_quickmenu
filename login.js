@@ -7,7 +7,7 @@ import {
     onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-// Configuração do Firebase (mesma do cadastro)
+
 const firebaseConfig = {
     apiKey: "AIzaSyDXlJIJFQZJ85CBphkkDr-axP9-ufri7No",
     authDomain: "quickmenu-1234.firebaseapp.com",
