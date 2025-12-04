@@ -329,6 +329,7 @@ async function obterProdutosDaCategoria(categoriaId) {
 // ---------------------------------------------------------------
 // CARREGAMENTO DO RESTAURANTE
 // ---------------------------------------------------------------
+<<<<<<< HEAD
 async function carregarRestaurante() {
     try {
         console.log('carregarRestaurante() chamado — params:', window.location.search);
@@ -379,6 +380,67 @@ async function carregarRestaurante() {
         console.error('Erro ao carregar restaurante:', error);
         alert('Erro ao carregar dados do restaurante');
     }
+=======
+function ajustarLinkPedidos() {
+    const linkPedidos = document.getElementById('link-pedidos');
+    
+    if (linkPedidos && restauranteId) {
+        // Adiciona o parâmetro ID do restaurante ao link
+        const url = new URL(linkPedidos.href, window.location.origin);
+        url.searchParams.set('id', restauranteId);
+        linkPedidos.href = url.toString();
+        
+        console.log("Link de pedidos ajustado:", linkPedidos.href);
+    } else if (linkPedidos) {
+        console.warn("Link de pedidos encontrado, mas restauranteId não está disponível");
+    }
+}
+
+// ---------------------------------------------------------------
+// AJUSTAR LINK QUANDO O RESTAURANTE FOR CARREGADO
+// ---------------------------------------------------------------
+// Modifique a função carregarRestaurante para chamar ajustarLinkPedidos
+function carregarRestaurante(userId) {
+    restauranteRef = doc(db, "operadores", userId, "restaurantes", restauranteId);
+    
+    onSnapshot(restauranteRef, (snapshot) => {
+        if (!snapshot.exists()) {
+            alert("Restaurante não encontrado.");
+            return;
+        }
+
+        const dados = snapshot.data();
+
+        nomeRestEl.textContent = dados.nome || "Nome do Restaurante";
+        descRestEl.value = dados.descricao || "";
+
+        // Limpa o conteúdo anterior
+        imgRestEl.querySelectorAll('img, #placeholder-icon, #remove-image-btn').forEach(el => {
+            if (el.id !== 'file-input' && el.id !== 'remove-image-btn') el.remove();
+        });
+        
+        // Exibe a imagem ou o placeholder
+        if (dados.imageUrl) {
+            const img = document.createElement('img');
+            img.src = dados.imageUrl;
+            img.style.width = '120px'; 
+            img.style.borderRadius = '10px';
+            imgRestEl.prepend(img);
+            removeImgRestBtn.style.display = 'block';
+            if(placeholderIcon) placeholderIcon.style.display = 'none';
+            imgRestEl.classList.add('has-image');
+        } else {
+            if(placeholderIcon) {
+                if (!imgRestEl.contains(placeholderIcon)) imgRestEl.prepend(placeholderIcon);
+                placeholderIcon.style.display = 'block';
+            }
+            removeImgRestBtn.style.display = 'none';
+            imgRestEl.classList.remove('has-image');
+            
+        }
+        ajustarLinkPedidos();
+    });
+>>>>>>> dfc65a443bc16ecd04f98a59a51663b399a25b7a
 }
 
 // ---------------------------------------------------------------
