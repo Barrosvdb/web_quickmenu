@@ -4,185 +4,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio</title>
+    <title>Cardápio - QuickMenu</title>
     <link rel="stylesheet" href="stylecardapio.css">
-    <script src="https://kit.fontawesome.com/b37ea9aa8c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <aside class="sidebar">
         <ul>
             <li><a href="home.html"><i class="fa-solid fa-house"></i>Início</a></li>
-            <li><i class="fa-solid fa-book-open"></i>Cardápio</li>
-            <li><i class="fa-solid fa-inbox"></i>Pedidos</li>
-            <li><i class="fa-solid fa-star"></i>Avaliações</li>
-            <li><i class="fa-solid fa-right-from-bracket"></i>Sair</li>
+            <li class="active"><i class="fa-solid fa-book-open"></i>Cardápio</li>
+            <li><a href="pedidos.html"><i class="fa-solid fa-inbox"></i>Pedidos</a></li>
+            <li><a href="avaliacoes.html"><i class="fa-solid fa-star"></i>Avaliações</a></li>
+            <li id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i>Sair</li>
         </ul>
     </aside>
 
     <main class="content">
-
         <div class="restaurante-header">
-            <div class="image" id="image-upload">
-                <input type="file" id="file-input" accept="image/*" hidden>
-                <button type="button" id="remove-image-btn" style="display: none; position: absolute; top: 10px; right: 10px;">X</button>
-                <svg id="placeholder-icon" xmlns="http://www.w3.org/2000/svg" width="500" height="100" fill="#ff7b4f"
-                    viewBox="0 0 16 16">
-                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                    <path
-                        d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                </svg>
+            <div class="image-container" id="image-upload">
+                <div class="image-wrapper">
+                    <input type="file" id="file-input" accept="image/*" hidden>
+                    <div class="upload-area" id="upload-area">
+                        <svg class="placeholder-icon" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="#ff7b4f" viewBox="0 0 16 16">
+                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                        </svg>
+                        <p>Clique para alterar a foto do restaurante</p>
+                        <span>PNG, JPG até 5MB</span>
+                    </div>
+                    <img id="preview-img" style="display: none;">
+                    <button type="button" class="remover-btn" id="remove-image-btn" style="display: none;">X</button>
+                </div>
             </div>
 
-            <h1 class="nome-restaurante">Nome do Restaurante</h1>
-            <textarea class="nota-restaurante" placeholder="Insira a descrição do restaurante"></textarea>
+            <h1 class="nome-restaurante" id="nome-restaurante">Nome do Restaurante</h1>
+            <textarea class="nota-restaurante" id="descricao-restaurante" placeholder="Insira a descrição do restaurante"></textarea>
         </div>
 
-        <section class="bloco destaques-section">
-            <h2>Destaques</h2>
-            <div class="destaques">
-                <div class="item-destaque">
-                    <div class="remover-btn">X</div>
-                    <div class="image-destaque">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#ff7b4f"
-                            viewBox="0 0 16 16">
-                            <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                            <path
-                                d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z" />
-                        </svg>
-                    </div>
-                    <div class="info-destaque">
-                        <p class="titulo">Item 1</p>
-                        <p class="preco">R$ 0,00</p>
-                    </div>
-                </div>
-
-                <div class="adicionar">
-                    <button class="open-modal-destaque"><i class="fa-solid fa-plus"></i></button>
-                </div>
-            </div>
-        </section>
-
         <section class="bloco categorias-section">
-            <h2>Categorias</h2>
-
-            <div class="categorias">
-
-                <button class="btn-add-categoria">
-                    <i class="fa-solid fa-plus"></i> adicionar categoria
+            <div class="section-header">
+                <h2>Categorias</h2>
+                <button class="btn-add-categoria" id="btn-add-categoria">
+                    <i class="fa-solid fa-plus"></i> Adicionar Categoria
                 </button>
+            </div>
 
-                <div class="categoria-secao">
-
-                    <div class="categoria-header">
-                        <h3 class="nome-categoria">salgados</h3>
-                        <div class="remover-btn btn-remove-categoria">X</div>
-                    </div>
-
-                    <div class="produto-wrapper">
-
-                        <div class="remover-btn btn-remove-produto">X</div>
-
-                        <div class="produto-item">
-                            <div class="produto-imagem">
-                                <img src="download.jpg" alt="Bauru Salgado">
-                            </div>
-
-                            <div class="produto-detalhes">
-                                <h4 class="produto-nome">Bauru</h4>
-                                <p class="produto-descricao">
-                                    Salgado feito de uma massa assada recheado com presunto e queijo
-                                </p>
-                                <p class="produto-preco">R$30,00</p>
-                            </div>
-                        </div>
-
-                        <div class="adicionar">
-                            <button class="open-modal"><i class="fa-solid fa-plus"></i></button>
-                        </div>
-
-                    </div>
+            <div class="categorias" id="categorias-container">
+                <!-- Categorias serão carregadas dinamicamente aqui -->
+                <div class="categoria-item placeholder">
+                    <p>Nenhuma categoria cadastrada. Clique em "Adicionar Categoria" para começar.</p>
                 </div>
-
             </div>
         </section>
-
     </main>
 
     <!-- Modal de Categoria -->
-    <dialog id="modalcat-categoria">
+    <dialog id="modal-categoria">
         <form id="form-categoria">
             <div class="modal-header">
-                <h1 class="modal-title">Criar categoria</h1>
-
-                <button class="close-modal" type="button" id="btn-fechar-categoria">
+                <h1 class="modal-title">Criar Categoria</h1>
+                <button type="button" class="close-modal" id="btn-fechar-categoria">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="modal-body">
-
                 <div class="input-group">
-                    <label for="nome-categoria">Nome da Categoria</label>
-                    <input type="text" id="nome-categoria" placeholder="Nome da categoria">
+                    <label for="input-nome-categoria">Nome da Categoria *</label>
+                    <input type="text" id="input-nome-categoria" placeholder="Ex: Entradas, Bebidas, Sobremesas" required>
+                    <span class="error-message" id="error-nome-categoria"></span>
                 </div>
             </div>
 
-            <div class="modal-footer btn-group">
-                <button type="button" class="btn btn-sair-categoria" id="btn-sair-categoria">
-                    <i class="fa-solid fa-door-open"></i> Sair
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btn-cancelar-categoria">
+                    Cancelar
                 </button>
-
-                <button type="submit" class="btn btn-salvar-categoria" id="btn-salvar-categoria" disabled>
-                    <i class="fa-solid fa-floppy-disk"></i> Salvar
+                <button type="submit" class="btn btn-primary" id="btn-salvar-categoria">
+                    <i class="fa-solid fa-floppy-disk"></i> Salvar Categoria
                 </button>
             </div>
         </form>
     </dialog>
 
     <!-- Modal de Produto -->
-    <dialog id="modal-categoria">
+    <dialog id="modal-produto">
         <form id="form-produto">
             <div class="modal-header">
-                <h1 class="modal-title">Criar Produto</h1>
-                <button class="close-modal" type="button" id="btn-fechar-modal">
+                <h1 class="modal-title">Adicionar Produto</h1>
+                <button type="button" class="close-modal" id="btn-fechar-produto">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
             <div class="modal-body">
                 <div class="input-group">
-                    <label for="nome">Nome do Produto</label>
-                    <input type="text" id="nome" placeholder="Nome do produto" required>
+                    <label for="input-nome-produto">Nome do Produto *</label>
+                    <input type="text" id="input-nome-produto" placeholder="Nome do produto" required>
+                    <span class="error-message" id="error-nome-produto"></span>
                 </div>
 
                 <div class="input-group">
-                    <label for="preco">Preço</label>
-                    <input type="number" id="preco" placeholder="R$ 0,00" step="0.01" min="0" required>
-                </div>
-
-                <div class="input-group">
-                    <label for="descricao">Descrição</label>
-                    <textarea id="descricao" placeholder="Descrição do produto"></textarea>
-                </div>
-
-                <div class="input-group">
-                    <label for="imagem">Imagem do Produto</label>
-                    <div id="area-upload" class="area-upload">
-                        <input type="file" id="imagem" accept="image/*" hidden>
-                        <span id="texto-upload">Clique para selecionar uma imagem</span>
-                        <img id="preview-imagem" style="display: none; max-width: 200px; margin-top: 10px;">
-                        <button type="button" id="remover-imagem-btn" style="display: none;">Remover Imagem</button>
+                    <label for="input-preco-produto">Preço *</label>
+                    <div class="preco-input">
+                        <span>R$</span>
+                        <input type="number" id="input-preco-produto" placeholder="0.00" step="0.01" min="0" required>
                     </div>
+                    <span class="error-message" id="error-preco-produto"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="input-descricao-produto">Descrição</label>
+                    <textarea id="input-descricao-produto" placeholder="Descrição do produto" rows="3"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="input-imagem-produto">Imagem do Produto *</label>
+                    <div class="image-upload-area" id="area-upload-produto">
+                        <input type="file" id="input-imagem-produto" accept="image/*" hidden>
+                        <div class="upload-preview" id="preview-area-produto">
+                            <svg class="placeholder-icon" width="60" height="60" fill="#ccc" viewBox="0 0 16 16">
+                                <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
+                            </svg>
+                            <p>Clique para adicionar imagem</p>
+                            <span>PNG, JPG até 5MB</span>
+                        </div>
+                        <img id="preview-imagem-produto" style="display: none;">
+                        <button type="button" class="btn-remover-imagem" id="btn-remover-imagem-produto" style="display: none;">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                    <span class="error-message" id="error-imagem-produto"></span>
                 </div>
             </div>
 
-            <div class="modal-footer btn-group">
-                <button type="button" class="btn btn-sair" id="btn-sair">
-                    <i class="fa-solid fa-door-open"></i> Sair
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btn-cancelar-produto">
+                    Cancelar
                 </button>
-
-                <button type="button" class="btn btn-salvar" id="btn-salvar" disabled>
+                <button type="submit" class="btn btn-primary" id="btn-salvar-produto">
                     <i class="fa-solid fa-floppy-disk"></i> Salvar Produto
                 </button>
             </div>
@@ -190,8 +152,6 @@
     </dialog>
 
     <script type="module" src="cardapio.js"></script>
-    <script src="zoom.js"></script>
-    <script src="notacardapio.js"></script>
 </body>
 
 </html>
