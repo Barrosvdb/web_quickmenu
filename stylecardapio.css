@@ -15,20 +15,17 @@ body {
     min-height: 100vh;
 }
 
-/* =============================== */
-/*           SIDEBAR               */
-/* =============================== */
-
 .sidebar {
-    width: 250px;
-    background: linear-gradient(180deg, #ff7b4f 0%, #ff6b3a 100%);
-    color: white;
-    height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
-    padding: 30px 0;
-    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    height: 100vh;
+    background-image: linear-gradient(90deg, #ff7b4f, #F5D965);
+    color: #333;
+    padding-top: 30px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
 }
 
 .sidebar ul {
@@ -36,37 +33,50 @@ body {
 }
 
 .sidebar ul li {
-    padding: 15px 30px;
-    font-size: 16px;
+    padding: 15px 25px;
+    font-size: 18px;
     display: flex;
     align-items: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    border-left: 4px solid transparent;
-}
-
-.sidebar ul li.active {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-left: 4px solid white;
-}
-
-.sidebar ul li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar ul li i {
     margin-right: 12px;
-    font-size: 18px;
-    width: 24px;
-    text-align: center;
+    font-size: 20px;
 }
 
+/* --- CORREÇÃO DOS LINKS QUE FICAVAM AZUIS --- */
 .sidebar ul li a {
-    color: white;
+    color: inherit;
     text-decoration: none;
     display: flex;
     align-items: center;
-    width: 100%;
+}
+
+.sidebar ul li:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar ul li:active {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.content {
+    margin-left: 220px;
+    padding: 30px;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.content h2 {
+    color: #333;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #ff7b4f;
+    font-size: 28px;
+    font-weight: 600;
 }
 
 /* =============================== */

@@ -57,6 +57,22 @@ body {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+.sidebar ul li.active {
+    background-color: rgba(255, 255, 255, 0.2); /* Fundo sutilmente mais claro */
+    font-weight: 600; /* Texto um pouco mais grosso */
+    border-left: 4px solid #fff; /* Uma borda lateral para indicar seleção */
+}
+
+/* Adicione isso logo após as regras de ".sidebar ul li" */
+
+.sidebar ul li a {
+    display: flex;         /* Torna o link um container flexível */
+    align-items: center;   /* Alinha ícone e texto verticalmente no centro */
+    width: 100%;           /* Garante que o link ocupe todo o espaço do botão */
+    height: 100%;          /* Garante a altura total */
+    color: inherit;        /* Garante que a cor seja a mesma do item sem link */
+}
+
 /* ===== CONTEÚDO PRINCIPAL ===== */
 .content {
     margin-left: 220px;
